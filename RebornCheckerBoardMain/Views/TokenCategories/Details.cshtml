@@ -1,0 +1,64 @@
+﻿@model RebornCheckerBoardMain.Models.TokenCategory
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TokenCategory</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Content)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Value)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Value)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ValueLabel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValueLabel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ValueRange)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValueRange)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ValueMin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValueMin)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
