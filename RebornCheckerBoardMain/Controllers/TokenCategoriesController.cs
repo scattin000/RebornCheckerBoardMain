@@ -24,7 +24,8 @@ namespace RebornCheckerBoardMain.Controllers
             var ContentQry = from d in db.Tokens
                            orderby d.Content
                            select d.Content;
-            //AddRange adds all distinct different values to the list
+            //AddRange adds all distinct different values to the list --> need to specify for the selected token type??
+
             ContentLst.AddRange(ContentQry.Distinct());
             //Stores list of items in the SelectList 
             ViewBag.SearchContent = new SelectList(ContentLst);
@@ -46,6 +47,7 @@ namespace RebornCheckerBoardMain.Controllers
             {
                 tokens = tokens.Where(s => s.Type == SearchType);
             }
+            // display the contenct options
             if (!string.IsNullOrEmpty(SearchContent))
             {
                 tokens = tokens.Where(x => x.Content == SearchContent);
@@ -157,4 +159,6 @@ namespace RebornCheckerBoardMain.Controllers
             base.Dispose(disposing);
         }
     }
+
+    //How to add another page here??
 }

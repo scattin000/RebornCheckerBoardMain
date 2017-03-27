@@ -177,6 +177,10 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Class1.cs" />
+    <Compile Include="Models\DeactivateToken\DeactivateTokenModel.cs" />
+    <Compile Include="Models\ITokenValue.cs" />
+    <Compile Include="Models\IssueToken\IssueTokenModel.cs" />
+    <Compile Include="Models\TokenType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -236,6 +240,7 @@
     <Content Include="Views\TokenCategories\Edit.cshtml" />
     <Content Include="Views\TokenCategories\Index.cshtml" />
     <Content Include="Views\Home\IssueTokens.cshtml" />
+    <Content Include="Views\TokenCategories\Verification.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
