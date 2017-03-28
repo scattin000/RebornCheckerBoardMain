@@ -6,7 +6,8 @@ using System.Web;
 namespace RebornCheckerBoardMain.Models
 {
     /// <summary>
-    /// Represents a token value for an issued token.
+    /// Represents a token value for an issued token. Needs to call the Token Type to get 
+    /// the details for that Type 
     /// </summary>
     public interface ITokenValue
     {

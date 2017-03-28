@@ -15,7 +15,6 @@ namespace RebornCheckerBoardMain.Controllers
         private TokenCategoryDBContext db = new TokenCategoryDBContext();
 
         // GET: TokenCategories - Search the Token Types 
-
         public ActionResult Index(string SearchContent, string SearchType)
         {
            // display list of token content 

@@ -1,0 +1,104 @@
+﻿@*@model IEnumerable<RebornCheckerBoardMain.Models.IssueToken.IssueTokenModel > *@
+@model RebornCheckerBoardMain.Models.IssueToken.IssueTokenModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+@*Token Type Selection here :): Display the page as "Issue Token" & the
+*@
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="form-group">
+            <h4>Token Type</h4>
+            <div class="col-md-10" id="SelectType">
+                @Html.EnumDropDownListFor( model => model.TokenType) <br />
+                @*How to default to null?  How to take this from here & put into DB... What to do to the controller?*@
+            </div>
+       </div>
+        <div class="form-group">
+            <h4>Token Content</h4>
+            @*Display Token Content - from the other DB table?*@
+        </div>
+       
+        <div class="form-group">
+            <h4>Token Value</h4>
+            @*IF TYPE selected == Game display in drop down all game content associated...
+            ELSE display a text field (takes a number)
+            *@
+       </div>
+            <div class="form-group">
+                <label for="comment">Comments</label>
+                <textarea class="form-control" rows="5" id="comment"></textarea>
+                @*Add required text & Clear the required field when entered*@
+            </div>
+        </div>
+}
+</p>
+@*select to go to Verification page (details)*@
+    <div class="form-group">
+    <div class="col-md-offset-2 col-md-offset-10">
+        <input type="submit" value="Next >" class="btn btn-default" />
+    </div>
+</div>
+    @*
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TokenType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TokenContent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Reason)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmailAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comments)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TokenType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TokenContent)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Reason)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmailAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comments)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.TokenCode }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.TokenCode }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.TokenCode })
+                </td>
+            </tr>
+        }
+
+*@
+   
+</table>

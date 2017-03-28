@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data.Entity;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace RebornCheckerBoardMain.Models.IssueToken
 {
@@ -11,7 +14,13 @@ namespace RebornCheckerBoardMain.Models.IssueToken
     public class IssueTokenModel
     {
         /// <summary>
-        /// The type of produ t the token is being issued for.
+        /// Unique to each portion this will be what is looked up in the deactivate
+        /// </summary>
+        [Key]
+        public Guid TokenCode { get; set; }
+
+        /// <summary>
+        /// The type of produt the token is being issued for.
         /// </summary>
         public TokenType TokenType { get; set; }
 
@@ -39,5 +48,33 @@ namespace RebornCheckerBoardMain.Models.IssueToken
         /// Comments about the token issuance from the agent.
         /// </summary>
         public string Comments { get; set; }
+        /// <summary>
+        /// This will be true whenever a token is issued 
+        /// Deactivation == False 
+        /// </summary>
+        public bool Status { get; set; }
+    }
+
+    // Handles fetching, storing, updating the TokenCategory instances of DB 
+    public class IssueTokenModelDBContext : DbContext
+    {
+        //this was Tokens in the other one
+        public DbSet<IssueTokenModel> IssuedTokens { get; set; }
+    }
+
+    /// <summary>
+    /// The set of types of tokens that may be issued.
+    /// </summary>
+    public enum TokenType
+    {
+        /// <summary>
+        /// A game or a DLC.
+        /// </summary>
+        Game,
+
+        /// <summary>
+        /// A subscription to a service.
+        /// </summary>
+        Subscription
     }
 }
