@@ -55,7 +55,8 @@ namespace RebornCheckerBoardMain.Models.IssueToken
         public string Reason { get; set; }
 
         /// <summary>
-        /// The list of valid reasons that an agent can fill in
+        /// The list of valid reasons that an agent can choose from
+        /// this will be different for each action. (Issue vs. Deactivate)
         /// </summary>
         public SelectListItem[] ReasonChoices { get; set; }
 
@@ -74,6 +75,7 @@ namespace RebornCheckerBoardMain.Models.IssueToken
         /// </summary>
         [Required(ErrorMessage = "Comments are Required")]
         public string Comments { get; set; }
+
         /// <summary>
         /// This will be true whenever a token is issued 
         /// Deactivation == False This should be hidden... 

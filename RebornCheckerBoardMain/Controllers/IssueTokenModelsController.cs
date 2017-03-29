@@ -41,7 +41,7 @@ namespace RebornCheckerBoardMain.Controllers
                 GameTokenValue = new SelectListItem[]
                 {
                     new SelectListItem() { Value = "Standard Ed.", Text = "Standard Edition"},
-                    new SelectListItem() { Value = "Speical Ed.", Text = "Specical Edition"},
+                    new SelectListItem() { Value = "Speical Ed.", Text = "Special Edition" },
                     new SelectListItem() { Value = "DLC-100 game Currency", Text = "DLC-100 game Currency"},
                     new SelectListItem() { Value = "DLC-50 game Currency", Text = "DLC-50 game Currency"},
                     new SelectListItem() { Value = "DLC-Character", Text = "DLC-Character"}
@@ -99,12 +99,13 @@ namespace RebornCheckerBoardMain.Controllers
         /// <summary>
         /// I clicked issue token. Do the save.
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
         public ActionResult HandleVerify(IssueTokenModel model)
         {
             // Write all your code for sending to the database here; we know we have a valid token and the
             // user has confirmed they want to issue it, so it's time to do that now.
+
+            // send data to the data base 
+            // set Status == True 
 
             // This line will return them to the Issue Token page, and have a blank form to fill out.
             return View("Index");

@@ -35,16 +35,6 @@
 
 <p>
     @Html.ActionLink("Create New", "Create")
-@*Token Type Selection here :): Display the page as "Issue Token" & the
-    @if (ViewData.ModelState.IsValid)
-    {
-              @ViewBag.SelectedType
-              @ViewBag.SelectedContent
-              @ViewBag.SelectedValue
-            @ViewBag.SelectedReason
-            @ViewBag.EnteredEmail
-            @ViewBag.EnteredComment
-    }*@
     @*Begin the form & call the "Index" method from IssueTokenModelController & make sure the form is only posting*@
 @using (Html.BeginForm("Index", "IssueTokenModels", FormMethod.Post))
     {
@@ -156,5 +146,3 @@
         }
 
 *@
-
-</table>

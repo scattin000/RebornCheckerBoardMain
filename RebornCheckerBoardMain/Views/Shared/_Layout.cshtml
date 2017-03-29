@@ -23,7 +23,8 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("IssueTokens", "IssueTokens", "Home")</li>
+                    @*To see how this is being called right click & "peak definition"*@
+                    <li>@Html.ActionLink("IssueTokens", "Index", "IssueTokenModels")</li>
                     <li>@Html.ActionLink("Deactivate", "Deactivate", "Home")</li>
                 </ul>
             </div>

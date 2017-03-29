@@ -29,6 +29,7 @@
 
         </div>
         <div class="form-group">
+ 
             <h4>Token Content</h4>
             @Html.TextBoxFor(model => model.TokenContent, new { @id = "GameTokenContentTypes", @readonly = "readonly"  })
         </div>
@@ -39,7 +40,6 @@
             <input type="number" class="form-control" id="SubscriptionVal" style="display: none;" />
             @*So I have the token value, however trying to access the ItokenValue*@
             @Html.TextBoxFor(model => model.TokenValue, new { @id = "SubscriptionTokenValueTypes", @readonly = "readonly" })
-
 
             @*Reason Drop down*@
             <div class="form-group">
@@ -59,6 +59,7 @@
                 @Html.TextAreaFor(model => model.Comments, new { @readonly = "readonly" })
                 @*Add required text & Clear the required field when entered*@
             </div>
+
         </div>
         @*select to go to Verification page (details)*@
         <div class="form-group">
@@ -123,5 +124,3 @@
         }
 
 *@
-
-</table>
