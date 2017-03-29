@@ -55,6 +55,11 @@ namespace RebornCheckerBoardMain.Models.IssueToken
         public string Reason { get; set; }
 
         /// <summary>
+        /// The list of valid reasons that an agent can fill in
+        /// </summary>
+        public SelectListItem[] ReasonChoices { get; set; }
+
+        /// <summary>
         /// The email address of the customer the token is to be issued to.
         /// </summary>
         [Required(ErrorMessage ="Email is Required")]

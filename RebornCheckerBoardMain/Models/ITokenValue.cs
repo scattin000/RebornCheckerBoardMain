@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace RebornCheckerBoardMain.Models
 {
@@ -47,7 +49,7 @@ namespace RebornCheckerBoardMain.Models
         /// How many months should this subscription be issued.
         /// Hold the value of the token given
         /// </summary>
-        
+        [Range(1, 24, ErrorMessage = "Please enter a number between 1 - 24")]
         public int SubscriptionMonths { get; set; }
     }
 }

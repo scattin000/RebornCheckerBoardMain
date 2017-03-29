@@ -45,11 +45,12 @@
             @ViewBag.EnteredEmail
             @ViewBag.EnteredComment
     }*@
-@using (Html.BeginForm())
-{
-    @Html.ValidationSummary(true)
-    @Html.AntiForgeryToken()
-        <div class="form-group">
+    @*Begin the form & call the "Index" method from IssueTokenModelController & make sure the form is only posting*@
+@using (Html.BeginForm("Index", "IssueTokenModels", FormMethod.Post))
+    {
+        @Html.ValidationSummary(true)
+            @Html.AntiForgeryToken()
+            <div class="form-group">
             <h4>Token Type</h4>
             @*On selecting a type call the tokenValView*@
             <div class="col-md-10" id="SelectType" onblur="tokenValView(this.value)" >
@@ -78,9 +79,16 @@
 
             @*Reason Drop down*@
             @*Drop down            Fil the model "Reason" with the option selected from "GameTokenValues"*@
-             @Html.DropDownList()
-                
-            @*Email *@
+            <div class="form-group">
+                <label for="Reason">Reason</label>
+                @Html.DropDownListFor(model => model.Reason, Model.ReasonChoices, new { @id = "ReasonSelected"})
+            </div>
+             
+            @*Redeem To Account *@
+            <div class="form-group">
+                <label for="Reason"> Redeem To Account</label>
+                    @Html.TextBoxFor(model => model.EmailAddress, new { @id = "EmailEntered"})
+            </div>
 
             @*Comments*@
             <div class="form-group">

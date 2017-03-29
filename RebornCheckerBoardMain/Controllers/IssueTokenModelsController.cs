@@ -46,14 +46,19 @@ namespace RebornCheckerBoardMain.Controllers
                     new SelectListItem() { Value = "DLC-50 game Currency", Text = "DLC-50 game Currency"},
                     new SelectListItem() { Value = "DLC-Character", Text = "DLC-Character"}
                 },
-                
+
+                //Set contents for the Reason Drop down
+                ReasonChoices = new SelectListItem[]
+                {
+                    new SelectListItem() { Value = "Reason1", Text = "Reason 1" },
+                    new SelectListItem() { Value = "Reason2", Text = "Reason 2" }
+                },
+
                 // good practice to set to empty
                 TokenContent = string.Empty
                 //TokenValue = string.Empty
 
             };
-
-             
 
             return View(model);
         }
