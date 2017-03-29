@@ -1,52 +1,94 @@
 ﻿@*@model IEnumerable<RebornCheckerBoardMain.Models.IssueToken.IssueTokenModel > *@
+@using System.Linq;
+
 @model RebornCheckerBoardMain.Models.IssueToken.IssueTokenModel
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Issue Token </h2>
+<script type="text/javascript" src="~/Scripts/jquery-3.1.1.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.validate.min.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    // Once my page has fully rendered and loaded, execute function() { ... }
+    // Allows the page to refresh & change the Token Content attributes depending on which Token Type was Selected 
+    $(document).ready(function () {
+   //hook up JS function on element TokenType 
+        $("#TokenType").change(function () {
+            var tokenType = this.value;
+            if (tokenType == 0) {
+                $("#GameTokenContentTypes").show();
+                $("#SubscriptionTokenContentTypes").hide();
+            } else if (tokenType == 1) {
+                $("#GameTokenContentTypes").hide();
+                $("#SubscriptionTokenContentTypes").show();
+            }
+        });
+    });
+</script>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 @*Token Type Selection here :): Display the page as "Issue Token" & the
-*@
+    @if (ViewData.ModelState.IsValid)
+    {
+              @ViewBag.SelectedType
+              @ViewBag.SelectedContent
+              @ViewBag.SelectedValue
+            @ViewBag.SelectedReason
+            @ViewBag.EnteredEmail
+            @ViewBag.EnteredComment
+    }*@
 @using (Html.BeginForm())
 {
+    @Html.ValidationSummary(true)
     @Html.AntiForgeryToken()
-    <div class="form-horizontal">
         <div class="form-group">
             <h4>Token Type</h4>
-            <div class="col-md-10" id="SelectType">
-                @Html.EnumDropDownListFor( model => model.TokenType) <br />
+            @*On selecting a type call the tokenValView*@
+            <div class="col-md-10" id="SelectType" onblur="tokenValView(this.value)" >
+                @Html.EnumDropDownListFor(model => model.TokenType, new { @id = "TokenType" }) <br />
                 @*How to default to null?  How to take this from here & put into DB... What to do to the controller?*@
             </div>
+
        </div>
         <div class="form-group">
             <h4>Token Content</h4>
-            @*Display Token Content - from the other DB table?*@
+            @*save TokenContent in DB, with the selected value from GAMETOKENCONTENT*@
+            @Html.DropDownListFor(model => model.TokenContent, Model.GameTokenContent, new { @id = "GameTokenContentTypes" })
+            @Html.DropDownListFor(model => model.TokenContent, Model.SubscriptionTokenContent, new { @id = "SubscriptionTokenContentTypes" })
         </div>
-       
+
         <div class="form-group">
-            <h4>Token Value</h4>
-            @*IF TYPE selected == Game display in drop down all game content associated...
-            ELSE display a text field (takes a number)
-            *@
-       </div>
+            <label for="SubscriptionVal, GameVal ">Token Value </label>
+            <input type="number" class="form-control" id="SubscriptionVal" style="display: none;" />
+            @*Load value associated with the Token Chosen  *@
+            <div class="form-group">
+                <select class="form-control" id="GameVal" >
+                    <option>1st Content </option>
+                </select>
+            </div>
+
+            @*Reason Drop down*@
+
+            @*Comments*@
             <div class="form-group">
                 <label for="comment">Comments</label>
                 <textarea class="form-control" rows="5" id="comment"></textarea>
                 @*Add required text & Clear the required field when entered*@
             </div>
         </div>
+        @*select to go to Verification page (details)*@
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-offset-10">
+                <input type="submit" value="Next >" class="btn btn-default" />
+            </div>
+        </div>
 }
 </p>
-@*select to go to Verification page (details)*@
-    <div class="form-group">
-    <div class="col-md-offset-2 col-md-offset-10">
-        <input type="submit" value="Next >" class="btn btn-default" />
-    </div>
-</div>
+
     @*
     <table class="table">
         <tr>
@@ -100,5 +142,5 @@
         }
 
 *@
-   
+
 </table>

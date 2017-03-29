@@ -22,11 +22,51 @@ namespace RebornCheckerBoardMain.Controllers
         // GET: IssueTokenModels
         public ActionResult Index()
         {
-            return View();//db.IssuedTokens.ToList());
+            // Filling the Token Content attributes to display on the page 
+            var model = new IssueTokenModel
+            { // FILL THE SET CONTENT VALUES!
+                GameTokenContent = new SelectListItem[]
+                {
+                    new SelectListItem() { Value = "Game1", Text = "Game1" },
+                    new SelectListItem() { Value = "Game2", Text = "Text2" }
+                },
+                SubscriptionTokenContent = new SelectListItem[]
+                {
+                    new SelectListItem() { Value = "EducationOnline", Text = "EducationOnline" },
+                    //Values WERE subscription1 & Subscription2 
+                    new SelectListItem() { Value = "GamersPlus", Text = "GamersPlus" } // keep these values the same, feed them directly from the db
+                }, // good practice to set to empty
+                TokenContent = string.Empty
+            };
+
+
+
+            return View(model);
         }
         /// <summary>
+        /// Attempt to display the verification page.. 
+        /// </summary>
+        /*
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Index(IssueTokenModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                ViewBag.SelectedType = model.TokenType;
+                ViewBag.SelectedContent = model.TokenContent;
+                ViewBag.SelectedValue = model.TokenValue;
+                ViewBag.SelectedReason = model.Reason;
+                ViewBag.EnteredEmail = model.EmailAddress;
+                ViewBag.EnteredComment = model.Comments;
+                // Do we need to post the status but hide it somehow???
+                //ViewBag.TokenStatus = model.status;
+            }
+            return View(model);
+        }
+        */
+        /// <summary>
         /// Get information from the IssueTOken (Index Page) to verify the token
-        /// On "Next"
+        /// On "Next >"
         /// </summary>
         // GET: IssueTokenModels/Details/5
         public ActionResult Details(Guid? id)

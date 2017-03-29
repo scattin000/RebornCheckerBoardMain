@@ -28,9 +28,9 @@ namespace RebornCheckerBoardMain.Models
         public TokenType TokenType { get { return TokenType.Game; } }
 
         /// <summary>
-        /// The title of the game itself.
+        /// The content for the game - hold the value of the token given
         /// </summary>
-        public string GameTitle { get; set; }    
+        public string DLCValue { get; set; }    
     }
 
     /// <summary>
@@ -45,7 +45,9 @@ namespace RebornCheckerBoardMain.Models
         
         /// <summary>
         /// How many months should this subscription be issued.
+        /// Hold the value of the token given
         /// </summary>
+        
         public int SubscriptionMonths { get; set; }
     }
 }

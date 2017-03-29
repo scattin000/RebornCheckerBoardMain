@@ -1,2 +1,15 @@
-//This file is where the code for the verification of fields being entered will go. Links to the Controller  
-//# sourceMappingURL=IssueToken.js.map
+﻿
+// Display UI depending on the Type Selected 
+/*
+Function tokenValView(@model.tokenType )    {
+    IF(tokenType == Game) {
+        Document.getElementById('GameVal').style.display = "inline";
+        Document.getElementById('SubscriptionVal').style.display = "none";
+    }
+    ELSE {
+        Document.getElementById('SubscriptionVal').style.display = "inline";
+        Document.getElementById('GameVal').style.display = "none";
+    }
+} */
+
+// Fill drop down contents depending on TokenType Selected... 
