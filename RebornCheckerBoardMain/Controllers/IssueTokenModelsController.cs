@@ -63,26 +63,53 @@ namespace RebornCheckerBoardMain.Controllers
             return View(model);
         }
         /// <summary>
-        /// Attempt to display the verification page.. 
+        /// Display the verification page if the token entry is valid. 
         /// </summary>
-        /*
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Index(IssueTokenModel model)
         {
-            if (ModelState.IsValid)
+            var isValid = true;
+            if (!ModelState.IsValid)
             {
-                ViewBag.SelectedType = model.TokenType;
-                ViewBag.SelectedContent = model.TokenContent;
-                ViewBag.SelectedValue = model.TokenValue;
-                ViewBag.SelectedReason = model.Reason;
-                ViewBag.EnteredEmail = model.EmailAddress;
-                ViewBag.EnteredComment = model.Comments;
-                // Do we need to post the status but hide it somehow???
-                //ViewBag.TokenStatus = model.status;
+                isValid = false;
             }
+            if (model.TokenType == Models.IssueToken.TokenType.Subscription)
+            {
+                int subscriptionMonths;
+                if (!int.TryParse(model.TokenValue, out subscriptionMonths))
+                {
+                    ModelState.AddModelError("Subscription Months", "Subscription months must be a number.");
+                    isValid = false;
+                }
+                if (subscriptionMonths < 1 || subscriptionMonths > 24)
+                {
+                    ModelState.AddModelError("Subscription Months", "Subscriptions may only be issued for between 1 and 24 months.");
+                    isValid = false;
+                }
+            }
+
+            if (isValid)
+            {
+                return View("VerifyIssueToken", model);
+            }
+
             return View(model);
         }
-        */
+
+        /// <summary>
+        /// I clicked issue token. Do the save.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public ActionResult HandleVerify(IssueTokenModel model)
+        {
+            // Write all your code for sending to the database here; we know we have a valid token and the
+            // user has confirmed they want to issue it, so it's time to do that now.
+
+            // This line will return them to the Issue Token page, and have a blank form to fill out.
+            return View("Index");
+        }
+
         /// <summary>
         /// Get information from the IssueTOken (Index Page) to verify the token
         /// On "Next >"

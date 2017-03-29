@@ -1,10 +1,7 @@
-﻿@*@model IEnumerable<RebornCheckerBoardMain.Models.IssueToken.IssueTokenModel > *@
-@using System.Linq;
-
-@model RebornCheckerBoardMain.Models.IssueToken.IssueTokenModel
+﻿@model RebornCheckerBoardMain.Models.IssueToken.IssueTokenModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Verify Issue Token";
 }
 
 <h2>Issue Token </h2>
@@ -12,98 +9,68 @@
 <script type="text/javascript" src="~/Scripts/jquery.validate.min.js"></script>
 <script type="text/javascript" src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <script>
-    // Once my page has fully rendered and loaded, execute function() { ... }
-    // Allows the page to refresh & change the Token Content attributes depending on which Token Type was Selected 
     $(document).ready(function () {
-   //hook up JS function on element TokenType 
-        $("#TokenType").change(function () {
-            var tokenType = this.value;
-            if (tokenType == 0) {
-                $("#GameTokenContentTypes").show();
-                $("#GameTokenValueTypes").show();
-                $("#SubscriptionTokenContentTypes").hide();
-                $("#SubscriptionTokenValueTypes").hide();
-            } else if (tokenType == 1) {
-                $("#GameTokenContentTypes").hide();
-                $("#GameTokenValueTypes").hide();
-                $("#SubscriptionTokenValueTypes").show();
-                $("#SubscriptionTokenContentTypes").show();
-            }
-        });
+        // I'll leave this hook in here for you in case you need to add anything jQuery related later.
     });
 </script>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
-@*Token Type Selection here :): Display the page as "Issue Token" & the
-    @if (ViewData.ModelState.IsValid)
-    {
-              @ViewBag.SelectedType
-              @ViewBag.SelectedContent
-              @ViewBag.SelectedValue
-            @ViewBag.SelectedReason
-            @ViewBag.EnteredEmail
-            @ViewBag.EnteredComment
-    }*@
-    @*Begin the form & call the "Index" method from IssueTokenModelController & make sure the form is only posting*@
-@using (Html.BeginForm("Index", "IssueTokenModels", FormMethod.Post))
+    @using (Html.BeginForm("HandleVerify", "IssueTokenModels", FormMethod.Post))
     {
         @Html.ValidationSummary(true)
-            @Html.AntiForgeryToken()
-            <div class="form-group">
+        @Html.AntiForgeryToken()
+        <div class="form-group">
             <h4>Token Type</h4>
-            @*On selecting a type call the tokenValView*@
-            <div class="col-md-10" id="SelectType" onblur="tokenValView(this.value)" >
-                @Html.EnumDropDownListFor(model => model.TokenType, new { @id = "TokenType" }) <br />
-                @*How to default to null?  How to take this from here & put into DB... What to do to the controller?*@
+            <div class="col-md-10" id="SelectType" onblur="tokenValView(this.value)">
+                @Html.TextBoxFor(model => model.TokenType, new { @id = "TokenType", @readonly = "readonly" }) <br />
+                @*By using "readonly" as a attribute above, we ensure the user cannot change the value.*@
+                @*We are using a textbox here instead of a dropdown because we aren't editing the value here anymore.*@
             </div>
 
-       </div>
+        </div>
         <div class="form-group">
             <h4>Token Content</h4>
-            @*save TokenContent in DB, with the selected value from GAMETOKENCONTENT*@
-            @Html.DropDownListFor(model => model.TokenContent, Model.GameTokenContent, new { @id = "GameTokenContentTypes" })
-            @Html.DropDownListFor(model => model.TokenContent, Model.SubscriptionTokenContent, new { @id = "SubscriptionTokenContentTypes" })
+            @Html.TextBoxFor(model => model.TokenContent, new { @id = "GameTokenContentTypes", @readonly = "readonly"  })
         </div>
-       
+
         @*Load value associated with the Token Chosen  *@
         <div class="form-group">
-            <label for="SubscriptionVal">Token Value </label>
+            <label for="SubscriptionVal, GameVal ">Token Value </label>
             <input type="number" class="form-control" id="SubscriptionVal" style="display: none;" />
             @*So I have the token value, however trying to access the ItokenValue*@
-            @Html.TextBoxFor(model => model.TokenValue, new { @id = "SubscriptionTokenValueTypes" })
-            @Html.DropDownListFor(model => model.TokenValue, Model.GameTokenValue, new { @id = "GameTokenValueTypes" })
+            @Html.TextBoxFor(model => model.TokenValue, new { @id = "SubscriptionTokenValueTypes", @readonly = "readonly" })
+
 
             @*Reason Drop down*@
-            @*Drop down            Fil the model "Reason" with the option selected from "GameTokenValues"*@
             <div class="form-group">
                 <label for="Reason">Reason</label>
-                @Html.DropDownListFor(model => model.Reason, Model.ReasonChoices, new { @id = "ReasonSelected"})
+                @Html.TextBoxFor(model => model.Reason, new { @id = "ReasonSelected", @readonly = "readonly" })
             </div>
-             
+
             @*Redeem To Account *@
             <div class="form-group">
                 <label for="Reason"> Redeem To Account</label>
-                    @Html.TextBoxFor(model => model.EmailAddress, new { @id = "EmailEntered"})
+                @Html.TextBoxFor(model => model.EmailAddress, new { @id = "EmailEntered", @readonly = "readonly" })
             </div>
 
             @*Comments*@
             <div class="form-group">
                 <label for="comment">Comments</label>
-                @Html.TextAreaFor(model => model.Comments)
+                @Html.TextAreaFor(model => model.Comments, new { @readonly = "readonly" })
                 @*Add required text & Clear the required field when entered*@
             </div>
         </div>
         @*select to go to Verification page (details)*@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-offset-10">
-                <input type="submit" value="Next >" class="btn btn-default" />
+                <input type="submit" value="Issue Token" class="btn btn-default" />
+                <input type="button" value="Cancel" onclick="parent.location + '/index.html'" class="btn btn-default"/>
             </div>
         </div>
-}
+    }
 </p>
 
-    @*
+@*
     <table class="table">
         <tr>
             <th>

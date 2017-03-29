@@ -27,7 +27,7 @@ namespace RebornCheckerBoardMain.Models.IssueToken
         /// <summary>
         /// The value of the token. May vary dependent on the token type.
         /// </summary>
-        public ITokenValue TokenValue { get; set; }
+        public string TokenValue { get; set; }
 
         /// <summary>
         /// The game title of the product being issued a token for.

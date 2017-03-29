@@ -252,6 +252,7 @@
     <Content Include="Views\IssueTokenModels\Details.cshtml" />
     <Content Include="Views\IssueTokenModels\Edit.cshtml" />
     <Content Include="Views\IssueTokenModels\Index.cshtml" />
+    <Content Include="Views\IssueTokenModels\VerifyIssueToken.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
