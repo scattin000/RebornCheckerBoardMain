@@ -36,10 +36,24 @@ namespace RebornCheckerBoardMain.Controllers
                     //Values WERE subscription1 & Subscription2 
                     new SelectListItem() { Value = "GamersPlus", Text = "GamersPlus" } // keep these values the same, feed them directly from the db
                 }, // good practice to set to empty
+
+                //FILL THE TOKEN VALUES (SUBSCRIPTION IS A RANGE SO NA)
+                GameTokenValue = new SelectListItem[]
+                {
+                    new SelectListItem() { Value = "Standard Ed.", Text = "Standard Edition"},
+                    new SelectListItem() { Value = "Speical Ed.", Text = "Specical Edition"},
+                    new SelectListItem() { Value = "DLC-100 game Currency", Text = "DLC-100 game Currency"},
+                    new SelectListItem() { Value = "DLC-50 game Currency", Text = "DLC-50 game Currency"},
+                    new SelectListItem() { Value = "DLC-Character", Text = "DLC-Character"}
+                },
+                
+                // good practice to set to empty
                 TokenContent = string.Empty
+                //TokenValue = string.Empty
+
             };
 
-
+             
 
             return View(model);
         }

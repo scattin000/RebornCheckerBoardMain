@@ -20,9 +20,13 @@
             var tokenType = this.value;
             if (tokenType == 0) {
                 $("#GameTokenContentTypes").show();
+                $("#GameTokenValueTypes").show();
                 $("#SubscriptionTokenContentTypes").hide();
+                $("#SubscriptionTokenValueTypes").hide();
             } else if (tokenType == 1) {
                 $("#GameTokenContentTypes").hide();
+                $("#GameTokenValueTypes").hide();
+                $("#SubscriptionTokenValueTypes").show();
                 $("#SubscriptionTokenContentTypes").show();
             }
         });
@@ -60,18 +64,23 @@
             @Html.DropDownListFor(model => model.TokenContent, Model.GameTokenContent, new { @id = "GameTokenContentTypes" })
             @Html.DropDownListFor(model => model.TokenContent, Model.SubscriptionTokenContent, new { @id = "SubscriptionTokenContentTypes" })
         </div>
-
+       
+        @*Load value associated with the Token Chosen  *@
         <div class="form-group">
             <label for="SubscriptionVal, GameVal ">Token Value </label>
             <input type="number" class="form-control" id="SubscriptionVal" style="display: none;" />
-            @*Load value associated with the Token Chosen  *@
-            <div class="form-group">
-                <select class="form-control" id="GameVal" >
-                    <option>1st Content </option>
-                </select>
+            @*So I have the token value, however trying to access the ItokenValue*@
+            @Html.TextBoxFor(model => model.TokenValue, new { @id = "SubscriptionTokenValueTypes" })
+            <div class="form-group" id="GameVal">
+                @*Drop down            Fil the model "TokenValue" with the option selected from "GameTokenValues"*@
+                @Html.DropDownListFor(model=> model.TokenValue, Model.GameTokenValue, new { @id = "GameTokenValueTypes"})
             </div>
 
             @*Reason Drop down*@
+            @*Drop down            Fil the model "Reason" with the option selected from "GameTokenValues"*@
+             @Html.DropDownList()
+                
+            @*Email *@
 
             @*Comments*@
             <div class="form-group">

@@ -48,7 +48,6 @@ namespace RebornCheckerBoardMain.Models.IssueToken
         /// </summary>
         public SelectListItem[] GameTokenValue { get; set; }
 
-
         /// <summary>
         /// The reason for the token issuance.
         /// </summary>
