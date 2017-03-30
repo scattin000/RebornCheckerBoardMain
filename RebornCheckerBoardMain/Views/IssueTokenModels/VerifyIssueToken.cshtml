@@ -11,59 +11,68 @@
 <script type="text/javascript" src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <script>
     $(document).ready(function () {
-        // how to hide the "O"
-        // $("#TokenType").hide();
-        //$("#TokenType",text).show();
+        $("#TokenValueTypeSelected").show();
     });
 
 
 </script>
 
-<p>
-    @* Call the HandleVerify method, from issueTokenModelController, and post the information...*@
+@* Call the HandleVerify method, from issueTokenModelController, and post the information...*@
 @using (Html.BeginForm("HandleVerify", "IssueTokenModels", FormMethod.Post))
 {
     @Html.ValidationSummary(true)
     @Html.AntiForgeryToken()
-    <div class="form-group">
-        <h4>Token Type</h4>
-        <div class="col-md-10" id="SelectType" @*onblur="tokenValView(this.value)"*@>
-            @Html.DisplayFor(model => model.TokenType, new { @id = "TokenType", @readonly = "readonly" }) <br />
-            @*By using "readonly" as a attribute above, we ensure the user cannot change the value.*@
-            @*We are using a textbox here instead of a dropdown because we aren't editing the value here anymore.*@
-        </div>
-    </div>
+    <div class="form-horizontal">
         <div class="form-group">
-            <h4>Token Content</h4>
-            @Html.DisplayFor(model => model.TokenContent, new { @id = "TokenContentTypeSelected", @readonly = "readonly" })
+            @Html.LabelFor(model => model.TokenType, htmlAttributes: new { @class = "control-label col-md-2" })
+            @*On selecting a type call the tokenValView*@
+            <div class="col-md-10" @*id="SelectType" onblur="tokenValView(this.value)"*@>
+                @Html.DisplayFor(model => model.TokenType, new { @id = "TokenType", @readonly = "readonly" }) <br />
+                @*By using "readonly" as a attribute above, we ensure the user cannot change the value.*@
+                @*We are using a textbox here instead of a dropdown because we aren't editing the value here anymore.*@
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.TokenContent, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.TokenContent, new { @id = "TokenContentTypeSelected", @readonly = "readonly" })
+            </div>
         </div>
 
         @*Load value associated with the Token Chosen  *@
         <div class="form-group">
-            <label for="SubscriptionVal, GameVal ">Token Value </label>
-            <input type="number" class="form-control" id="SubscriptionVal" style="display: none;" />
-            @*So I have the token value, however trying to access the ItokenValue*@
-            @Html.DisplayFor(model => model.TokenValue, new { @id = "TokenValueTypeSelected", @readonly = "readonly" })
+            @Html.LabelFor(model => model.TokenValue, htmlAttributes: new { @class = "control-label col-md-2" })
+            @*<input type="number" id="SubscriptionVal" style="display: none;" />*@
+            <div class="col-md-10">
+                @*So I have the token value, however trying to access the ItokenValue*@
+                @Html.DisplayFor(model => model.TokenValue, new { @id = "TokenValueTypeSelected", @readonly = "readonly" })
+            </div>
+        </div>
 
-            @*Reason Drop down*@
-            <div class="form-group">
-                <label for="Reason">Reason</label>
+        @*Reason Drop down*@
+        <div class="form-group">
+            <label for="Reason" class="control-label col-md-2"> Redeem To Account</label>
+            <div class="col-md-10">
                 @Html.DisplayFor(model => model.Reason, new { @id = "ReasonSelected", @readonly = "readonly" })
             </div>
+        </div>
 
-            @*Redeem To Account *@
-            <div class="form-group">
-                <label for="Reason"> Redeem To Account</label>
+        @*Redeem To Account *@
+        <div class="form-group">
+            <label for="Reason" class="control-label col-md-2"> Redeem To Account</label>
+            <div class="col-md-10">
                 @Html.DisplayFor(model => model.EmailAddress, new { @id = "EmailEntered", @readonly = "readonly" })
             </div>
+        </div>
 
-            @*Comments*@
-            <div class="form-group">
-                <label for="comment">Comments</label>
+        @*Comments*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
                 @Html.DisplayFor(model => model.Comments, new { @readonly = "readonly" })
             </div>
-
         </div>
+
         @*select to go to Verification page*@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-offset-10">
@@ -74,59 +83,59 @@
                 @*<input type="submit" id="btnPrev" name="command" value="< Prev" class="btn btn-default" />*@
             </div>
         </div>
-}
-</p>
-
-@*
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TokenType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TokenContent)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Reason)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EmailAddress)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Comments)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TokenType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TokenContent)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Reason)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EmailAddress)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Comments)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id=item.TokenCode }) |
-                    @Html.ActionLink("Details", "Details", new { id=item.TokenCode }) |
-                    @Html.ActionLink("Delete", "Delete", new { id=item.TokenCode })
-                </td>
-            </tr>
+        </div>
         }
 
-*@
+        @*
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TokenType)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TokenContent)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Reason)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EmailAddress)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Comments)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TokenType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TokenContent)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Reason)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EmailAddress)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Comments)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id=item.TokenCode }) |
+                            @Html.ActionLink("Details", "Details", new { id=item.TokenCode }) |
+                            @Html.ActionLink("Delete", "Delete", new { id=item.TokenCode })
+                        </td>
+                    </tr>
+                }
+
+        *@

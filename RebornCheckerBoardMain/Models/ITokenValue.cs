@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
-
+using System.Data.Entity;
+using System.Web.Mvc;
 
 namespace RebornCheckerBoardMain.Models
 {
@@ -32,7 +33,9 @@ namespace RebornCheckerBoardMain.Models
         /// <summary>
         /// The content for the game - hold the value of the token given
         /// </summary>
-        public string DLCValue { get; set; }    
+       public string DLCValue { get; set; }
+
+        //public SelectListItem[] GameTokenValue { get; set; }
     }
 
     /// <summary>

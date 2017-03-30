@@ -117,13 +117,15 @@ namespace RebornCheckerBoardMain.Controllers
         /// I clicked issue token. Do the save.
         /// Take the model information from the verify token partial view & store to DB
         /// </summary>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult HandleVerify(IssueTokenModel model, string Command)
         {
             // IF the agent select "Cancel" Button... 
             if (Command == "Cancel" )
             {
                 // This line will return them to the Issue Token page, and have a blank form to fill out.
-                return View("Index");
+                return RedirectToAction("Index");
             }/*
             else if(Command == "< Prev")
             {
@@ -151,9 +153,9 @@ namespace RebornCheckerBoardMain.Controllers
                     // to the home page?
 
                     // now go back to home after alert is shown? Or after they select " home"?
-                    return RedirectToAction("Index");
+                   return RedirectToAction("Index");
+                  // return View(model);
                 }
-
                 // what does this do? (returns the model to the view... but 
                 return View(model);
             }
@@ -191,10 +193,10 @@ namespace RebornCheckerBoardMain.Controllers
             return View();
         }
         /// <summary>
+        /// POST: IssueTokenModels/Create
         /// SEND data from Issue page to the Issued Token DB 
         /// This creates the new token and then stores that data 
         /// </summary>
-        // POST: IssueTokenModels/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -217,7 +219,7 @@ namespace RebornCheckerBoardMain.Controllers
         /// because you cannot edit the transaction after it's been submitted 
         /// </summary>
         // GET: IssueTokenModels/Edit/5
-        public ActionResult Edit(Guid? id)
+        public ActionResult Deactivate(Guid? id)
         {
             if (id == null)
             {
@@ -240,7 +242,7 @@ namespace RebornCheckerBoardMain.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "TokenCode,TokenType,TokenContent,Reason,EmailAddress,Comments,Status")] IssueTokenModel issueTokenModel)
+        public ActionResult Deactivate([Bind(Include = "TokenCode,TokenType,TokenContent,Reason,EmailAddress,Comments,Status")] IssueTokenModel issueTokenModel)
         {
             if (ModelState.IsValid)
             {

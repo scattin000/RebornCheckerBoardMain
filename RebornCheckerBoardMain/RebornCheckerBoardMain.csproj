@@ -250,7 +250,7 @@
     <Content Include="Views\IssueTokenModels\Create.cshtml" />
     <Content Include="Views\IssueTokenModels\Delete.cshtml" />
     <Content Include="Views\IssueTokenModels\Details.cshtml" />
-    <Content Include="Views\IssueTokenModels\Edit.cshtml" />
+    <Content Include="Views\IssueTokenModels\Deactivate.cshtml" />
     <Content Include="Views\IssueTokenModels\Index.cshtml" />
     <Content Include="Views\IssueTokenModels\VerifyIssueToken.cshtml" />
   </ItemGroup>
