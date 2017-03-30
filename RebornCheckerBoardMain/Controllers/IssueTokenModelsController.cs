@@ -63,33 +63,36 @@ namespace RebornCheckerBoardMain.Controllers
             return View(model);
         }
         /// <summary>
-        /// Display the verification page if the token entry is valid. 
+        /// Display the verification page if the token entry is valid.
+        /// Passing in the model data from the issueToken view 
         /// </summary>
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Index(IssueTokenModel model)
         {
             var isValid = true;
+            // if something in the verification doesn't work
             if (!ModelState.IsValid)
-            {
+            { // is valid is false
                 isValid = false;
-            }
+            } // IF the token type is subscription run this check!
             if (model.TokenType == Models.IssueToken.TokenType.Subscription)
-            {
+            { 
                 int subscriptionMonths;
+                // If not able to parse? then 
                 if (!int.TryParse(model.TokenValue, out subscriptionMonths))
-                {
+                { // try to parse the int, and if it's not an int then error message 
                     ModelState.AddModelError("Subscription Months", "Subscription months must be a number.");
                     isValid = false;
                 }
                 if (subscriptionMonths < 1 || subscriptionMonths > 24)
-                {
+                { // if the int is out of range then display an error!!
                     ModelState.AddModelError("Subscription Months", "Subscriptions may only be issued for between 1 and 24 months.");
                     isValid = false;
                 }
             }
-
+            // if all the checks pass then proceed and it's valid 
             if (isValid)
-            {
+            { // go to the verifyIssueToken partial view & display the model information
                 return View("VerifyIssueToken", model);
             }
 
@@ -98,17 +101,47 @@ namespace RebornCheckerBoardMain.Controllers
 
         /// <summary>
         /// I clicked issue token. Do the save.
+        /// Take the model information from the verify token partial view & store to DB
         /// </summary>
-        public ActionResult HandleVerify(IssueTokenModel model)
+        public ActionResult HandleVerify(IssueTokenModel model, string Command)
         {
-            // Write all your code for sending to the database here; we know we have a valid token and the
-            // user has confirmed they want to issue it, so it's time to do that now.
+            // Button Options
+            if (Command == "Cancel" )
+            {
+                // This line will return them to the Issue Token page, and have a blank form to fill out.
+                return View("Index");
+            }/*
+            else if(Command == "< Prev")
+            {
+                //return the user to the previous page and do NOT erase the values, they need to edit the model
+                return RedirectToAction("Index",model);
+            }*/
+            else
+            {
+                // Write all your code for sending to the database here; we know we have a valid token and the
+                // user has confirmed they want to issue it, so it's time to do that now.
+                // send data to the data base  (see the create function below??)
+                if (ModelState.IsValid)
+                {
+                    // set Status to true when tokens are issued 
+                    model.Status = true;
+                    // create a GUID for the model
+                    model.TokenCode = Guid.NewGuid();
+                    //Add the new GUID & Status to the model
+                    db.IssuedTokens.Add(model);
+                    //Save the changes to DB - do I need to pass in the model?
+                    db.SaveChanges();
 
-            // send data to the data base 
-            // set Status == True 
+                    //display confirmation alert IF successful 
+                    // want to display alert with Okay button that would then allow the agent to select and be taken 
+                    // to the home page?
+                    //return RedirectToAction("Index");
+                }
 
-            // This line will return them to the Issue Token page, and have a blank form to fill out.
-            return View("Index");
+                // what does this do? (returns the model to the view... but 
+                return View(model);
+            }
+            
         }
 
         /// <summary>
@@ -116,19 +149,21 @@ namespace RebornCheckerBoardMain.Controllers
         /// On "Next >"
         /// </summary>
         // GET: IssueTokenModels/Details/5
-        public ActionResult Details(Guid? id)
+        public ActionResult Details()//Guid? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            IssueTokenModel issueTokenModel = db.IssuedTokens.Find(id);
-            if (issueTokenModel == null)
-            {
-                return HttpNotFound();
-            }
-            return View(issueTokenModel);
+            /* if (id == null)
+             {
+                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+             }
+             IssueTokenModel issueTokenModel = db.IssuedTokens.Find(id);
+             if (issueTokenModel == null)
+             {
+                 return HttpNotFound();
+             }
+             return View(issueTokenModel);*/
+            return View();
         }
+
         /// <summary>
         /// GET token info from Verification(Details page) & create a new token
         /// On "Submit" in verification page 

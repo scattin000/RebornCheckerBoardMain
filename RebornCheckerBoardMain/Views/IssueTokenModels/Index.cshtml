@@ -3,8 +3,8 @@
 
 @model RebornCheckerBoardMain.Models.IssueToken.IssueTokenModel
 
-@{
-    ViewBag.Title = "Index";
+@{    // what displays in the browser tab 
+    ViewBag.Title = "IssueToken";
 }
 
 <h2>Issue Token </h2>
@@ -15,6 +15,9 @@
     // Once my page has fully rendered and loaded, execute function() { ... }
     // Allows the page to refresh & change the Token Content attributes depending on which Token Type was Selected 
     $(document).ready(function () {
+        // Default view Hide the Subscription UI
+        $("#SubscriptionTokenContentTypes").hide();
+        $("#SubscriptionTokenValueTypes").hide();
    //hook up JS function on element TokenType 
         $("#TokenType").change(function () {
             var tokenType = this.value;
@@ -81,7 +84,6 @@
             <div class="form-group">
                 <label for="comment">Comments</label>
                 @Html.TextAreaFor(model => model.Comments)
-                @*Add required text & Clear the required field when entered*@
             </div>
         </div>
         @*select to go to Verification page (details)*@

@@ -1,6 +1,7 @@
 ﻿@model RebornCheckerBoardMain.Models.IssueToken.IssueTokenModel
 
 @{
+    // what displays in the browser tab 
     ViewBag.Title = "Verify Issue Token";
 }
 
@@ -10,28 +11,30 @@
 <script type="text/javascript" src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <script>
     $(document).ready(function () {
-        // I'll leave this hook in here for you in case you need to add anything jQuery related later.
+        // how to hide the "O"
+       // $("#TokenType").hide();
+        //$("#TokenType",text).show();
+
     });
 </script>
 
-<p>
+<p>@* Call the HandleVerify method, from issueTokenModelController, and post the information...*@
     @using (Html.BeginForm("HandleVerify", "IssueTokenModels", FormMethod.Post))
     {
         @Html.ValidationSummary(true)
         @Html.AntiForgeryToken()
         <div class="form-group">
             <h4>Token Type</h4>
-            <div class="col-md-10" id="SelectType" onblur="tokenValView(this.value)">
-                @Html.TextBoxFor(model => model.TokenType, new { @id = "TokenType", @readonly = "readonly" }) <br />
+            <div class="col-md-10" id="SelectType"@*onblur="tokenValView(this.value)"*@ >
+              @*@ @Html.DisplayNameFor(model => model.TokenType,  new { @id = "TokenType", @readonly = "readonly" }) <br />*@
+               @Html.TextBoxFor(model => model.TokenType, new { @id = "TokenType", @readonly = "readonly" }) <br /> 
                 @*By using "readonly" as a attribute above, we ensure the user cannot change the value.*@
                 @*We are using a textbox here instead of a dropdown because we aren't editing the value here anymore.*@
             </div>
-
         </div>
         <div class="form-group">
- 
             <h4>Token Content</h4>
-            @Html.TextBoxFor(model => model.TokenContent, new { @id = "GameTokenContentTypes", @readonly = "readonly"  })
+            @Html.TextBoxFor(model => model.TokenContent, new { @id = "TokenContentTypeSelected", @readonly = "readonly"  })
         </div>
 
         @*Load value associated with the Token Chosen  *@
@@ -39,7 +42,7 @@
             <label for="SubscriptionVal, GameVal ">Token Value </label>
             <input type="number" class="form-control" id="SubscriptionVal" style="display: none;" />
             @*So I have the token value, however trying to access the ItokenValue*@
-            @Html.TextBoxFor(model => model.TokenValue, new { @id = "SubscriptionTokenValueTypes", @readonly = "readonly" })
+            @Html.TextBoxFor(model => model.TokenValue, new { @id = "TokenValueTypeSelected", @readonly = "readonly" })
 
             @*Reason Drop down*@
             <div class="form-group">
@@ -57,15 +60,17 @@
             <div class="form-group">
                 <label for="comment">Comments</label>
                 @Html.TextAreaFor(model => model.Comments, new { @readonly = "readonly" })
-                @*Add required text & Clear the required field when entered*@
             </div>
 
         </div>
-        @*select to go to Verification page (details)*@
+        @*select to go to Verification page*@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-offset-10">
-                <input type="submit" value="Issue Token" class="btn btn-default" />
-                <input type="button" value="Cancel" onclick="parent.location + '/index.html'" class="btn btn-default"/>
+                @*select to go to Verification page, function is in the HandleVerify method in controller*@
+                <input type="submit" id ="btnSubmitDB" name="command" value="Issue Token" class="btn btn-default" />
+
+                <input type="submit" id ="btnCancel" name="command" value="Cancel" class="btn btn-default"/>
+               @*<input type="submit" id="btnPrev" name="command" value="< Prev" class="btn btn-default" />*@ 
             </div>
         </div>
     }

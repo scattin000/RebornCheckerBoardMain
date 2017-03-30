@@ -1,66 +1,68 @@
-﻿@model RebornCheckerBoardMain.Models.IssueToken.IssueTokenModel
+﻿@model IEnumerable<RebornCheckerBoardMain.Models.IssueToken.IssueTokenModel > 
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Issued Tokens";
 }
 
-<h2>Details</h2>
+<h2>Issued Tokens </h2>
 
 <div>
     <h4>IssueTokenModel</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.TokenType)
-        </dt>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TokenType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TokenContent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Reason)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmailAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comments)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+        </tr>
 
-        <dd>
-            @Html.DisplayFor(model => model.TokenType)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TokenContent)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TokenContent)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Reason)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Reason)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EmailAddress)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EmailAddress)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Comments)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Comments)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.TokenCode }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TokenType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TokenContent)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Reason)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmailAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comments)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.TokenCode }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.TokenCode }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.TokenCode })
+                </td>
+            </tr>
+        }
+        </div>
+        </table>
+     @*<p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.TokenCode }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>*@   
