@@ -27,8 +27,13 @@ namespace RebornCheckerBoardMain.Controllers
             { // FILL THE SET CONTENT VALUES!
                 GameTokenContent = new SelectListItem[]
                 {
-                    new SelectListItem() { Value = "Game1", Text = "Game1" },
-                    new SelectListItem() { Value = "Game2", Text = "Text2" }
+                    new SelectListItem() { Value = "Battle Of The Worlds", Text = "Battle Of The Worlds" },
+                    new SelectListItem() { Value = "Builder Blocks 2", Text = "Builder Blocks 2" },
+                    new SelectListItem() { Value = "Builder Blocks 3", Text = "Builder Blocks 3" },
+                    new SelectListItem() { Value = "Diver Craze", Text = "Diver Craze" },
+                    new SelectListItem() { Value = "Diver Craze 2", Text = "Diver Craze 2" },
+                    new SelectListItem() { Value = "Race To Mars", Text = "Race To Mars" },
+                    new SelectListItem() { Value = "Rock 'Em Sock 'Em", Text = "Rock 'Em Sock 'Em" }
                 },
                 SubscriptionTokenContent = new SelectListItem[]
                 {
@@ -44,20 +49,28 @@ namespace RebornCheckerBoardMain.Controllers
                     new SelectListItem() { Value = "Speical Ed.", Text = "Special Edition" },
                     new SelectListItem() { Value = "DLC-100 game Currency", Text = "DLC-100 game Currency"},
                     new SelectListItem() { Value = "DLC-50 game Currency", Text = "DLC-50 game Currency"},
-                    new SelectListItem() { Value = "DLC-Character", Text = "DLC-Character"}
+                    new SelectListItem() { Value = "DLC-Character", Text = "DLC-Character"},
+                    new SelectListItem() { Value = "DLC-Bonus Lvl", Text = "DLC-Bonus Level"}
+
                 },
 
-                //Set contents for the Reason Drop down
+                //Set contents for the Reason Drop down for issuing a token
                 ReasonChoices = new SelectListItem[]
                 {
-                    new SelectListItem() { Value = "Reason1", Text = "Reason 1" },
-                    new SelectListItem() { Value = "Reason2", Text = "Reason 2" }
+                    new SelectListItem() { Value = "Make Good", Text = "Make Good" },
+                    new SelectListItem() { Value = "Troubleshooting Issues - System", Text = "Troubleshooting Issues - System"},
+                    new SelectListItem() { Value = "Technical Issues - System", Text = "Technical Issues - System" },
+                    new SelectListItem() { Value = "Promotion Not Received", Text = "Promotional Token Not Received" },
+                    new SelectListItem() { Value = "Damaged", Text = "Damaged Code" },
+                    new SelectListItem() { Value = "Missing From Bundle", Text = "Missing Item From Bundle" },
+                    new SelectListItem() { Value = "Inactive Status", Text = "Inactive Status" },
+                    new SelectListItem() { Value = "Invalid Code", Text = "Invalid Code" },
+                    new SelectListItem() { Value = "Incorrect Token Issued", Text = "Incorrect Token Type Issued" },
                 },
 
                 // good practice to set to empty
                 TokenContent = string.Empty
                 //TokenValue = string.Empty
-
             };
 
             return View(model);
@@ -93,6 +106,7 @@ namespace RebornCheckerBoardMain.Controllers
             // if all the checks pass then proceed and it's valid 
             if (isValid)
             { // go to the verifyIssueToken partial view & display the model information
+
                 return View("VerifyIssueToken", model);
             }
 
@@ -105,7 +119,7 @@ namespace RebornCheckerBoardMain.Controllers
         /// </summary>
         public ActionResult HandleVerify(IssueTokenModel model, string Command)
         {
-            // Button Options
+            // IF the agent select "Cancel" Button... 
             if (Command == "Cancel" )
             {
                 // This line will return them to the Issue Token page, and have a blank form to fill out.
@@ -116,7 +130,7 @@ namespace RebornCheckerBoardMain.Controllers
                 //return the user to the previous page and do NOT erase the values, they need to edit the model
                 return RedirectToAction("Index",model);
             }*/
-            else
+            else // otherwise if they select "Submit"
             {
                 // Write all your code for sending to the database here; we know we have a valid token and the
                 // user has confirmed they want to issue it, so it's time to do that now.
@@ -135,7 +149,9 @@ namespace RebornCheckerBoardMain.Controllers
                     //display confirmation alert IF successful 
                     // want to display alert with Okay button that would then allow the agent to select and be taken 
                     // to the home page?
-                    //return RedirectToAction("Index");
+
+                    // now go back to home after alert is shown? Or after they select " home"?
+                    return RedirectToAction("Index");
                 }
 
                 // what does this do? (returns the model to the view... but 

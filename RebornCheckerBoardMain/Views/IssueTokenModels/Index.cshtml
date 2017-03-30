@@ -3,22 +3,26 @@
 
 @model RebornCheckerBoardMain.Models.IssueToken.IssueTokenModel
 
-@{    // what displays in the browser tab 
+@{    // what displays in the browser tab
     ViewBag.Title = "IssueToken";
 }
-
-<h2>Issue Token </h2>
+@* This displays the text as red anytime the class "ValidationMessage" is called*@
+<style>
+    .ValidationMessage {
+        color: #ff0000;
+    }
+</style>
 <script type="text/javascript" src="~/Scripts/jquery-3.1.1.js"></script>
 <script type="text/javascript" src="~/Scripts/jquery.validate.min.js"></script>
 <script type="text/javascript" src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <script>
     // Once my page has fully rendered and loaded, execute function() { ... }
-    // Allows the page to refresh & change the Token Content attributes depending on which Token Type was Selected 
+    // Allows the page to refresh & change the Token Content attributes depending on which Token Type was Selected
     $(document).ready(function () {
         // Default view Hide the Subscription UI
         $("#SubscriptionTokenContentTypes").hide();
         $("#SubscriptionTokenValueTypes").hide();
-   //hook up JS function on element TokenType 
+        //hook up JS function on element TokenType
         $("#TokenType").change(function () {
             var tokenType = this.value;
             if (tokenType == 0) {
@@ -36,56 +40,70 @@
     });
 </script>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-    @*Begin the form & call the "Index" method from IssueTokenModelController & make sure the form is only posting*@
+@*Begin the form & call the "Index" method from IssueTokenModelController & make sure the form is only posting*@
 @using (Html.BeginForm("Index", "IssueTokenModels", FormMethod.Post))
-    {
-        @Html.ValidationSummary(true)
-            @Html.AntiForgeryToken()
-            <div class="form-group">
-            <h4>Token Type</h4>
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h3> Issue Token </h3>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.TokenType, htmlAttributes: new { @class = "control-label col-md-2" })
             @*On selecting a type call the tokenValView*@
-            <div class="col-md-10" id="SelectType" onblur="tokenValView(this.value)" >
-                @Html.EnumDropDownListFor(model => model.TokenType, new { @id = "TokenType" }) <br />
-                @*How to default to null?  How to take this from here & put into DB... What to do to the controller?*@
+            <div class="col-md-10" @*id="SelectType" onblur="tokenValView(this.value)"*@>
+                @*@class="form-control" sets this value to display using the bootstrap UI *@
+                @Html.EnumDropDownListFor(model => model.TokenType, new { @id = "TokenType", @class = "form-control" })
             </div>
 
-       </div>
-        <div class="form-group">
-            <h4>Token Content</h4>
-            @*save TokenContent in DB, with the selected value from GAMETOKENCONTENT*@
-            @Html.DropDownListFor(model => model.TokenContent, Model.GameTokenContent, new { @id = "GameTokenContentTypes" })
-            @Html.DropDownListFor(model => model.TokenContent, Model.SubscriptionTokenContent, new { @id = "SubscriptionTokenContentTypes" })
         </div>
-       
+        <div class="form-group">
+            @Html.LabelFor(model => model.TokenContent, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*save TokenContent in DB, with the selected value from GAMETOKENCONTENT*@
+                @Html.DropDownListFor(model => model.TokenContent, Model.GameTokenContent, new { @id = "GameTokenContentTypes", @class = "form-control" })
+                @Html.DropDownListFor(model => model.TokenContent, Model.SubscriptionTokenContent, new { @id = "SubscriptionTokenContentTypes", @class = "form-control" })
+            </div>
+        </div>
+
         @*Load value associated with the Token Chosen  *@
         <div class="form-group">
-            <label for="SubscriptionVal">Token Value </label>
-            <input type="number" class="form-control" id="SubscriptionVal" style="display: none;" />
-            @*So I have the token value, however trying to access the ItokenValue*@
-            @Html.TextBoxFor(model => model.TokenValue, new { @id = "SubscriptionTokenValueTypes" })
-            @Html.DropDownListFor(model => model.TokenValue, Model.GameTokenValue, new { @id = "GameTokenValueTypes" })
-
-            @*Reason Drop down*@
-            @*Drop down            Fil the model "Reason" with the option selected from "GameTokenValues"*@
-            <div class="form-group">
-                <label for="Reason">Reason</label>
-                @Html.DropDownListFor(model => model.Reason, Model.ReasonChoices, new { @id = "ReasonSelected"})
-            </div>
-             
-            @*Redeem To Account *@
-            <div class="form-group">
-                <label for="Reason"> Redeem To Account</label>
-                    @Html.TextBoxFor(model => model.EmailAddress, new { @id = "EmailEntered"})
-            </div>
-
-            @*Comments*@
-            <div class="form-group">
-                <label for="comment">Comments</label>
-                @Html.TextAreaFor(model => model.Comments)
+            @Html.LabelFor(model => model.TokenValue, htmlAttributes: new { @class = "control-label col-md-2" })
+            @*<input type="number" id="SubscriptionVal" style="display: none;" />*@
+            <div class="col-md-10">
+                @*So I have the token value, however trying to access the ItokenValue*@
+                @Html.TextBoxFor(model => model.TokenValue, new { @id = "SubscriptionTokenValueTypes", @class = "form-control" })
+                @Html.DropDownListFor(model => model.TokenValue, Model.GameTokenValue, new { @id = "GameTokenValueTypes", @class = "form-control" })
             </div>
         </div>
+        @*Reason Drop down*@
+        @*Drop down            Fil the model "Reason" with the option selected from "GameTokenValues"*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.Reason, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Reason, Model.ReasonChoices, new { @id = "ReasonSelected", @class = "form-control" })
+            </div>
+        </div>
+
+        @*Redeem To Account *@
+        <div class="form-group">
+            <label for="Reason" class="control-label col-md-2"> Redeem To Account</label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.EmailAddress, new { @id = "EmailEntered", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.EmailAddress, string.Empty, new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*Comments*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Comments, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Comments, string.Empty, new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
         @*select to go to Verification page (details)*@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-offset-10">
@@ -93,9 +111,8 @@
             </div>
         </div>
 }
-</p>
 
-    @*
+@*
     <table class="table">
         <tr>
             <th>
