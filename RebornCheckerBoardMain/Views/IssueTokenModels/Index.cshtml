@@ -26,15 +26,32 @@
         $("#TokenType").change(function () {
             var tokenType = this.value;
             if (tokenType == 0) {
-                $("#GameTokenContentTypes").show();
-                $("#GameTokenValueTypes").show();
+                // Depending on the token - UI will change
+                $("#GameTokenContentTypes").show(); 
                 $("#SubscriptionTokenContentTypes").hide();
+                // Disable/enable the property form control
+                $("#GameTokenContentTypes").prop("disabled",false);
+                $("#SubscriptionTokenContentTypes").prop("disabled", true);
+                //Depending on the token - Token Value will be modified
+                $("#GameTokenValueTypes").show();
                 $("#SubscriptionTokenValueTypes").hide();
+                // Disable/enable the property form control - VALUE
+                $("#GameTokenValueTypes").prop("disabled", false);
+                $("#SubscriptionTokenValueTypes").prop("disabled", true);
             } else if (tokenType == 1) {
+               // Depending on the token - Token CONTENT will be modified
                 $("#GameTokenContentTypes").hide();
+                $("#SubscriptionTokenContentTypes").show();
+                // Disable/enable the property form control - CONTENT
+                $("#GameTokenContentTypes").prop("disabled", true);
+                $("#SubscriptionTokenContentTypes").prop("disabled", false);
+                //Depending on the token - Token VALUE UI
                 $("#GameTokenValueTypes").hide();
                 $("#SubscriptionTokenValueTypes").show();
-                $("#SubscriptionTokenContentTypes").show();
+                // Disable/enable the property form control -VALUE
+                $("#GameTokenValueTypes").prop("disabled", true);
+                $("#SubscriptionTokenValueTypes").prop("disabled", false);
+
             }
         });
     });
@@ -63,6 +80,8 @@
             <div class="col-md-10">
                 @*save TokenContent in DB, with the selected value from GAMETOKENCONTENT*@
                 @Html.DropDownListFor(model => model.TokenContent, Model.GameTokenContent, new { @id = "GameTokenContentTypes", @class = "form-control" })
+            </div>
+            <div class="col-md-10">
                 @Html.DropDownListFor(model => model.TokenContent, Model.SubscriptionTokenContent, new { @id = "SubscriptionTokenContentTypes", @class = "form-control" })
             </div>
         </div>
@@ -74,6 +93,8 @@
             <div class="col-md-10">
                 @*So I have the token value, however trying to access the ItokenValue*@
                 @Html.TextBoxFor(model => model.TokenValue, new { @id = "SubscriptionTokenValueTypes", @class = "form-control" })
+            </div>
+            <div class="col-md-10">
                 @Html.DropDownListFor(model => model.TokenValue, Model.GameTokenValue, new { @id = "GameTokenValueTypes", @class = "form-control" })
             </div>
         </div>
