@@ -10,81 +10,95 @@
 <script type="text/javascript" src="~/Scripts/jquery.validate.min.js"></script>
 <script type="text/javascript" src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <script>
+    var my = this;
+    
     $(document).ready(function () {
         $("#TokenValueTypeSelected").show();
+
+        alert('im ready');
+
+        my.token = {
+            TokenCode: '@Model.TokenCode',
+            TokenType: '@Model.TokenType',
+            TokenValue: '@Model.TokenValue',
+            TokenContent: '@Model.TokenContent',
+            Reason: '@Model.Reason',
+            EmailAddress: '@Model.EmailAddress',
+            Comments: '@Model.Comments',
+            Status: @Model.Status;
+        };
+
+        $(document).on('click', '#btnSubmitDb', function () {
+            alert('wee I clicked the button');
+        });
     });
 
 
 </script>
 
-@* Call the HandleVerify method, from issueTokenModelController, and post the information...*@
-@using (Html.BeginForm("HandleVerify", "IssueTokenModels", FormMethod.Post))
-{
-    @Html.ValidationSummary(true)
-    @Html.AntiForgeryToken()
-    <div class="form-horizontal">
-        <div class="form-group">
-            @Html.LabelFor(model => model.TokenType, htmlAttributes: new { @class = "control-label col-md-2" })
-            @*On selecting a type call the tokenValView*@
-            <div class="col-md-10" @*id="SelectType" onblur="tokenValView(this.value)"*@>
-                @Html.DisplayFor(model => model.TokenType, new { @id = "TokenType", @readonly = "readonly" }) <br />
-                @*By using "readonly" as a attribute above, we ensure the user cannot change the value.*@
-                @*We are using a textbox here instead of a dropdown because we aren't editing the value here anymore.*@
-            </div>
+<div class="form-horizontal">
+    <div class="form-group">
+        @Html.LabelFor(model => model.TokenType, htmlAttributes: new { @class = "control-label col-md-2" })
+        @*On selecting a type call the tokenValView*@
+        <div class="col-md-10" @*id="SelectType" onblur="tokenValView(this.value)"*@>
+            @Html.DisplayFor(model => model.TokenType, new { @id = "TokenType", @readonly = "readonly" }) <br />
+            @*By using "readonly" as a attribute above, we ensure the user cannot change the value.*@
+            @*We are using a textbox here instead of a dropdown because we aren't editing the value here anymore.*@
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.TokenContent, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.TokenContent, new { @id = "TokenContentTypeSelected", @readonly = "readonly" })
-            </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.TokenContent, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.TokenContent, new { @id = "TokenContentTypeSelected", @readonly = "readonly" })
         </div>
+    </div>
 
-        @*Load value associated with the Token Chosen  *@
-        <div class="form-group">
-            @Html.LabelFor(model => model.TokenValue, htmlAttributes: new { @class = "control-label col-md-2" })
-            @*<input type="number" id="SubscriptionVal" style="display: none;" />*@
-            <div class="col-md-10">
-                @*So I have the token value, however trying to access the ItokenValue*@
-                @Html.DisplayFor(model => model.TokenValue, new { @id = "TokenValueTypeSelected", @readonly = "readonly" })
-            </div>
+    @*Load value associated with the Token Chosen  *@
+    <div class="form-group">
+        @Html.LabelFor(model => model.TokenValue, htmlAttributes: new { @class = "control-label col-md-2" })
+        @*<input type="number" id="SubscriptionVal" style="display: none;" />*@
+        <div class="col-md-10">
+            @*So I have the token value, however trying to access the ItokenValue*@
+            @Html.DisplayFor(model => model.TokenValue, new { @id = "TokenValueTypeSelected", @readonly = "readonly" })
         </div>
+    </div>
 
-        @*Reason Drop down*@
-        <div class="form-group">
-            <label for="Reason" class="control-label col-md-2"> Redeem To Account</label>
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.Reason, new { @id = "ReasonSelected", @readonly = "readonly" })
-            </div>
+    @*Reason Drop down*@
+    <div class="form-group">
+        <label for="Reason" class="control-label col-md-2"> Redeem To Account</label>
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Reason, new { @id = "ReasonSelected", @readonly = "readonly" })
         </div>
+    </div>
 
-        @*Redeem To Account *@
-        <div class="form-group">
-            <label for="Reason" class="control-label col-md-2"> Redeem To Account</label>
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.EmailAddress, new { @id = "EmailEntered", @readonly = "readonly" })
-            </div>
+    @*Redeem To Account *@
+    <div class="form-group">
+        <label for="Reason" class="control-label col-md-2"> Redeem To Account</label>
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.EmailAddress, new { @id = "EmailEntered", @readonly = "readonly" })
         </div>
+    </div>
 
-        @*Comments*@
-        <div class="form-group">
-            @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.Comments, new { @readonly = "readonly" })
-            </div>
+    @*Comments*@
+    <div class="form-group">
+        @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Comments, new { @readonly = "readonly" })
         </div>
+    </div>
 
-        @*select to go to Verification page*@
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-offset-10">
-                @*select to go to Verification page, function is in the HandleVerify method in controller*@
-                <input type="submit" id="btnSubmitDB" name="command" value="Issue Token" class="btn btn-default" />
+    @*select to go to Verification page*@
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-offset-10">
+            @*select to go to Verification page, function is in the HandleVerify method in controller*@
+            <input type="button" id="btnSubmitDB" name="command" value="Issue Token" class="btn btn-default" />
 
-                <input type="submit" id="btnCancel" name="command" value="Cancel" class="btn btn-default" />
-                @*<input type="submit" id="btnPrev" name="command" value="< Prev" class="btn btn-default" />*@
-            </div>
+            <input type="button" id="btnCancel" name="command" value="Cancel" class="btn btn-default" />
+            @*<input type="submit" id="btnPrev" name="command" value="< Prev" class="btn btn-default" />*@
         </div>
-        </div>
-        }
+    </div>
+</div>
+
 
         @*
             <table class="table">

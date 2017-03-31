@@ -119,7 +119,8 @@ namespace RebornCheckerBoardMain.Controllers
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult HandleVerify(IssueTokenModel model, string Command)
+        public ActionResult HandleVerify(string Command,[Bind(Include = "TokenCode,TokenType,TokenContent,Reason,EmailAddress,Comments")] IssueTokenModel model)
+            //IssueTokenModel model, string Command)
         {
             // IF the agent select "Cancel" Button... 
             if (Command == "Cancel" )
@@ -156,7 +157,7 @@ namespace RebornCheckerBoardMain.Controllers
                    return RedirectToAction("Index");
                   // return View(model);
                 }
-                // what does this do? (returns the model to the view... but 
+                // Stays on the page if there is an error... (set to display system error message)
                 return View(model);
             }
             
