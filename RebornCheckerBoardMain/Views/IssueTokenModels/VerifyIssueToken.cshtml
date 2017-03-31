@@ -14,9 +14,7 @@
     
     $(document).ready(function () {
         $("#TokenValueTypeSelected").show();
-
-        alert('im ready');
-
+        
         my.token = {
             TokenCode: '@Model.TokenCode',
             TokenType: '@Model.TokenType',
@@ -25,12 +23,20 @@
             Reason: '@Model.Reason',
             EmailAddress: '@Model.EmailAddress',
             Comments: '@Model.Comments',
-            Status: @Model.Status;
+            Status: @Model.Status.ToString().ToLower()
         };
 
-        $(document).on('click', '#btnSubmitDb', function () {
-            alert('wee I clicked the button');
+        $("#btnSubmitDB").click(function () {
+            $.post("/IssueTokenModels/HandleVerify", my.token, onSaveSuccess);
         });
+
+        function onSaveSuccess() {
+            // first pop up your modal dialog saying that you saved some stuff
+            alert('omgwtfbbq we saved some stuff');
+
+            // then do a browser redirect back to the index page
+            // you'll have to figure that out for yourself because I have to go my lunch meeting
+        }
     });
 
 

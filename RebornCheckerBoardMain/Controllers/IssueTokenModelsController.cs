@@ -118,48 +118,34 @@ namespace RebornCheckerBoardMain.Controllers
         /// Take the model information from the verify token partial view & store to DB
         /// </summary>
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult HandleVerify(string Command,[Bind(Include = "TokenCode,TokenType,TokenContent,Reason,EmailAddress,Comments")] IssueTokenModel model)
+        public ActionResult HandleVerify(IssueTokenModel model)
             //IssueTokenModel model, string Command)
         {
-            // IF the agent select "Cancel" Button... 
-            if (Command == "Cancel" )
+        
+            // Write all your code for sending to the database here; we know we have a valid token and the
+            // user has confirmed they want to issue it, so it's time to do that now.
+            // send data to the data base  (see the create function below??)
+            if (ModelState.IsValid)
             {
-                // This line will return them to the Issue Token page, and have a blank form to fill out.
+                // set Status to true when tokens are issued 
+                model.Status = true;
+                // create a GUID for the model
+                model.TokenCode = Guid.NewGuid();
+                //Add the new GUID & Status to the model
+                db.IssuedTokens.Add(model);
+                //Save the changes to DB - do I need to pass in the model?
+                db.SaveChanges();
+
+                //display confirmation alert IF successful 
+                // want to display alert with Okay button that would then allow the agent to select and be taken 
+                // to the home page?
+
+                // now go back to home after alert is shown? Or after they select " home"?
                 return RedirectToAction("Index");
-            }/*
-            else if(Command == "< Prev")
-            {
-                //return the user to the previous page and do NOT erase the values, they need to edit the model
-                return RedirectToAction("Index",model);
-            }*/
-            else // otherwise if they select "Submit"
-            {
-                // Write all your code for sending to the database here; we know we have a valid token and the
-                // user has confirmed they want to issue it, so it's time to do that now.
-                // send data to the data base  (see the create function below??)
-                if (ModelState.IsValid)
-                {
-                    // set Status to true when tokens are issued 
-                    model.Status = true;
-                    // create a GUID for the model
-                    model.TokenCode = Guid.NewGuid();
-                    //Add the new GUID & Status to the model
-                    db.IssuedTokens.Add(model);
-                    //Save the changes to DB - do I need to pass in the model?
-                    db.SaveChanges();
-
-                    //display confirmation alert IF successful 
-                    // want to display alert with Okay button that would then allow the agent to select and be taken 
-                    // to the home page?
-
-                    // now go back to home after alert is shown? Or after they select " home"?
-                   return RedirectToAction("Index");
-                  // return View(model);
-                }
-                // Stays on the page if there is an error... (set to display system error message)
-                return View(model);
+                // return View(model);
             }
+            // Stays on the page if there is an error... (set to display system error message)
+            return View(model);
             
         }
 

@@ -18,6 +18,9 @@
                 @Html.DisplayNameFor(model => model.TokenContent)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.TokenValue)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Reason)
             </th>
             <th>
@@ -42,6 +45,9 @@
                     @Html.DisplayFor(modelItem => item.TokenContent)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.TokenValue)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Reason)
                 </td>
                 <td>
@@ -54,8 +60,8 @@
                     @Html.DisplayFor(modelItem => item.Status)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.TokenCode }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.TokenCode }) |
+                    @Html.ActionLink("Deactivate", "Deactivate", new { id = item.TokenCode }) |
+                  
                     @Html.ActionLink("Delete", "Delete", new { id = item.TokenCode })
                 </td>
             </tr>
