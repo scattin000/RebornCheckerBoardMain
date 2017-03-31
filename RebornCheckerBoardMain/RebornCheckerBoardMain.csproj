@@ -179,6 +179,10 @@
     <Compile Include="Migrations\201703250429411_TokenCategories2.Designer.cs">
       <DependentUpon>201703250429411_TokenCategories2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703312040310_additions.cs" />
+    <Compile Include="Migrations\201703312040310_additions.Designer.cs">
+      <DependentUpon>201703312040310_additions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Class1.cs" />
     <Compile Include="Models\DeactivateToken\DeactivateTokenModel.cs" />
@@ -279,6 +283,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703250429411_TokenCategories2.resx">
       <DependentUpon>201703250429411_TokenCategories2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703312040310_additions.resx">
+      <DependentUpon>201703312040310_additions.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
