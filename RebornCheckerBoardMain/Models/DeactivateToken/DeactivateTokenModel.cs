@@ -2,39 +2,37 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
+using System.ComponentModel.DataAnnotations;
+using RebornCheckerBoardMain.Entities;
 
 namespace RebornCheckerBoardMain.Models.DeactivateToken
 {
     public class DeactivateTokenModel
     {
-        /// <summary>
-        /// The type of product the token was issued for. 
-        /// </summary>
+        // display the GUID associated 
+        [Key]
+        public Guid TokenCode { get; set; }
+        // show the previous token type
         public TokenType TokenType { get; set; }
-
-        /// <summary>
-        /// The value of the token that was issued
-        /// </summary>
-        public ITokenValue TokenValue { get; set; }
-
-        /// <summary>
-        /// The title of the product was issued for
-        /// </summary>
+        // show the previous token Content
         public string TokenContent { get; set; }
+        // show the previous token Value
+        public string TokenValue { get; set; }
 
-        /// <summary>
-        /// The email address of the customer the token is to be issued to.
-        /// </summary>
+        // show the Account token was sent to 
         public string EmailAddress { get; set; }
 
         /// <summary>
-        /// Agent needs to enter a reason for deactivation
+        /// Things that will be new and saved!!!
         /// </summary>
+        // Get a new reason for deactivation
+        [Required(ErrorMessage = "Reason is Required")]
         public string Reason { get; set; }
-
-        /// <summary>
-        /// Comments about the token deactivation from the agent.
-        /// </summary>
+        // Get new comment for action
+        [Required(ErrorMessage = "Comments are Required")]
         public string Comments { get; set; }
+
+        //Status will be updated in the 
     }
 }

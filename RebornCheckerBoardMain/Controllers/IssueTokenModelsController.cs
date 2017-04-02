@@ -8,12 +8,20 @@ using System.Web;
 using System.Web.Mvc;
 using RebornCheckerBoardMain.Models;
 using RebornCheckerBoardMain.Models.IssueToken;
+using RebornCheckerBoardMain.Entities;
+using RebornCheckerBoardMain.Models.DeactivateToken;
 
 namespace RebornCheckerBoardMain.Controllers
 {
     public class IssueTokenModelsController : Controller
     {
-        private IssueTokenModelDBContext db = new IssueTokenModelDBContext();
+        private TokenDbContext tokens;
+        
+        public IssueTokenModelsController()
+        {
+            tokens = new TokenDbContext();
+        }
+
         /// <summary>
         /// Get the tokens to display in the issueToken Page? ( link this to the
         /// the TokenCategory??? - How to GET data from one controller to another?)
@@ -51,7 +59,6 @@ namespace RebornCheckerBoardMain.Controllers
                     new SelectListItem() { Value = "DLC-50 game Currency", Text = "DLC-50 game Currency"},
                     new SelectListItem() { Value = "DLC-Character", Text = "DLC-Character"},
                     new SelectListItem() { Value = "DLC-Bonus Lvl", Text = "DLC-Bonus Level"}
-
                 },
 
                 //Set contents for the Reason Drop down for issuing a token
@@ -67,12 +74,10 @@ namespace RebornCheckerBoardMain.Controllers
                     new SelectListItem() { Value = "Invalid Code", Text = "Invalid Code" },
                     new SelectListItem() { Value = "Incorrect Token Issued", Text = "Incorrect Token Type Issued" },
                 },
-
                 // good practice to set to empty
                 TokenContent = string.Empty
                 //TokenValue = string.Empty
             };
-
             return View(model);
         }
         /// <summary>
@@ -106,10 +111,8 @@ namespace RebornCheckerBoardMain.Controllers
             // if all the checks pass then proceed and it's valid 
             if (isValid)
             { // go to the verifyIssueToken partial view & display the model information
-
                 return View("VerifyIssueToken", model);
             }
-
             return View(model);
         }
 
@@ -119,34 +122,58 @@ namespace RebornCheckerBoardMain.Controllers
         /// </summary>
         [HttpPost]
         public ActionResult HandleVerify(IssueTokenModel model)
-            //IssueTokenModel model, string Command)
-        {
-        
+        {        
             // Write all your code for sending to the database here; we know we have a valid token and the
             // user has confirmed they want to issue it, so it's time to do that now.
             // send data to the data base  (see the create function below??)
             if (ModelState.IsValid)
             {
-                // set Status to true when tokens are issued 
-                model.Status = true;
-                // create a GUID for the model
-                model.TokenCode = Guid.NewGuid();
-                //Add the new GUID & Status to the model
-                db.IssuedTokens.Add(model);
-                //Save the changes to DB - do I need to pass in the model?
-                db.SaveChanges();
+                // We will go from a model to an entity because we're saving to the database.
+                // We know that the model contains values that are safe to store because of the
+                // ModelState.IsValid check above, so we know we won't write anything that'll screw
+                // up the database.
+                var token = new TokenEntity
+                {
+                    TokenCode = Guid.NewGuid(), // Our new identifier. The user doesn't get to pick one, so we do that here.
+                    TokenType = ToEntityTokenType(model.TokenType),
+                    TokenContent = model.TokenContent,
+                    IssuingReason = model.Reason,
+                    IssuingComments = model.Comments,
+                    EmailAddress = model.EmailAddress,
+                    TokenValue = model.TokenValue,
+                    Status = true // All issued tokens are by default active - the user can't issue a deactivated token.
+                };
 
-                //display confirmation alert IF successful 
-                // want to display alert with Okay button that would then allow the agent to select and be taken 
-                // to the home page?
+                // Now we're adding the token to the database...
+                tokens.IssuedTokens.Add(token);               
+                // ... and saving it.
+                tokens.SaveChanges();
 
-                // now go back to home after alert is shown? Or after they select " home"?
-                return RedirectToAction("Index");
-                // return View(model);
+                return View();
+                // Assuming we got here, the save worked fine. Go ahead and return control to the page;
+                // our Javascript will pop up the alert saying that it's successful.
+               // return new HttpStatusCodeResult(HttpStatusCode.OK);
             }
             // Stays on the page if there is an error... (set to display system error message)
-            return View(model);
-            
+            return View(model);           
+        }
+
+        private Entities.TokenType ToEntityTokenType(Models.IssueToken.TokenType tokenType)
+        {
+            // This is the proper way to convert between one enum type to another. This guarantees
+            // if we add a new Model.TokenType or an Entity.TokenType we will still be able to support
+            // it.
+            switch (tokenType)
+            {
+                case Models.IssueToken.TokenType.Game:
+                    return Entities.TokenType.Game;
+
+                case Models.IssueToken.TokenType.Subscription:
+                    return Entities.TokenType.Subscription;
+
+                default:
+                    throw new NotSupportedException($"The token type '{tokenType}' is not supported.");
+            }
         }
 
         /// <summary>
@@ -168,111 +195,123 @@ namespace RebornCheckerBoardMain.Controllers
              return View(issueTokenModel);*/
             return View();
         }
-
+      
         /// <summary>
-        /// GET token info from Verification(Details page) & create a new token
-        /// On "Submit" in verification page 
-        /// </summary>
-        // GET: IssueTokenModels/Create
-        public ActionResult Create()
-        {
-
-            return View();
-        }
-        /// <summary>
-        /// POST: IssueTokenModels/Create
-        /// SEND data from Issue page to the Issued Token DB 
-        /// This creates the new token and then stores that data 
-        /// </summary>
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TokenCode,TokenType,TokenContent,Reason,EmailAddress,Comments,Status")] IssueTokenModel issueTokenModel)
-        {
-            if (ModelState.IsValid)
-            {
-                issueTokenModel.TokenCode = Guid.NewGuid();
-                db.IssuedTokens.Add(issueTokenModel);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(issueTokenModel);
-        }
-        /// <summary>
-        /// This is when we actually want to deactivate the token
-        /// they can do this here :) 
-        /// because you cannot edit the transaction after it's been submitted 
+        /// Get the GUID's (Token Codes) for all the tokens to allow the user to select
+        /// Which token they want to deactivate
         /// </summary>
         // GET: IssueTokenModels/Edit/5
-        public ActionResult Deactivate(Guid? id)
+        public ActionResult Deactivate()
         {
-            if (id == null)
+            // This will issue a query to the database to get all the token codes.
+            // This will (behind the scenes) run a SQL query like
+            //
+            // SELECT TokenCode
+            // FROM [dbo].[TokenEntity]
+            // WHERE Status = 1
+            //
+            // and return the results.
+            var tokenCodes = tokens.IssuedTokens.Where(token => token.Status == true).Select(token => token.TokenCode).ToList();
+
+            // Now we will transform them into SelectListItems for our page (because we can't use
+            // GUIDs directly in Html.DropDownListFor.
+            var tokenListItems = new List<SelectListItem>();
+            foreach (var tokenCode in tokenCodes)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            IssueTokenModel issueTokenModel = db.IssuedTokens.Find(id);
-            if (issueTokenModel == null)
+                var tokenListItem = new SelectListItem()
+                {
+                    Text = tokenCode.ToString(), // This is what the user will see.
+                    Value = tokenCode.ToString() // This is what the controller and CSHTML will see.
+                };
+                tokenListItems.Add(tokenListItem);
+            };
+
+            // We need the first token code coming back from the database in order to be able to
+            // populate the Javascript on our page as we render it. Remember, we call loadToken() at
+            // the time we've finished loading our page. Leaving the selected token code empty would mean
+            // that we are trying to load a token with a null ID. That's not good.
+            //
+            // Therefore, we'll look up the first entity in our database and get its code, and use
+            // that as the primary selection.
+
+            Guid selectedTokenCode = tokenCodes.FirstOrDefault();
+
+            // The first thing that the user will do is that they need to pick which token they
+            // want to deactivate. That's a separate operation than actually deactivating a token,
+            // which is why we have a specific model (SelectTokenToDeactivateModel) to do that - provide
+            // a list of tokens and then have them pick one to deactivate.
+            // 
+            // We'll use Javascript to actually get the token content with another controller method
+            // we will write (below this one).
+            var model = new SelectTokenToDeactivateModel
             {
-                return HttpNotFound();
-            }
-            return View(issueTokenModel);
+                TokensToChooseFrom = tokenListItems.ToArray(),
+                SelectedTokenCode = selectedTokenCode == Guid.Empty ? "" : selectedTokenCode.ToString(),
+                ReasonChoices = new SelectListItem[]
+                {
+                    new SelectListItem() { Value = "Created/ Inactive Status", Text = "Created/ Inactive Status "},
+                    new SelectListItem() { Value = "Active Token Troubleshooting", Text = "Active Token Troubleshooting " }
+                },
+            };
+
+
+            return View(model);
         }
         /// <summary>
-        /// Edit the transaction??? Not sure how to set this one up to link
-        /// to the DB because at this point it's not actually sent to the DB yet...
-        ///  THIS WILL BE THE DEACTIVATE!!!!!!!!!!!
+        /// Display contents on the page and deal with the actualy deactivation 
         /// </summary>
-        // POST: IssueTokenModels/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Deactivate([Bind(Include = "TokenCode,TokenType,TokenContent,Reason,EmailAddress,Comments,Status")] IssueTokenModel issueTokenModel)
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult DisplayDeactiveTokenDetails(Guid id)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(issueTokenModel).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(issueTokenModel);
+            // Let's get the token.
+            TokenEntity token = LookupEntityById(id);
+
+            // We have our token. We will return it as JSON so the jQuery function we wrote
+            // can interpret it and do its thing.
+            return Json(token);
         }
 
-        // GET: IssueTokenModels/Delete/5
-        public ActionResult Delete(Guid? id)
+        [AcceptVerbs(HttpVerbs.Post)]
+        [Route("DeactivateToken/{id}")]
+        public ActionResult DeactivateToken(Guid id, DeactivateTokenModel tokenModel)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            IssueTokenModel issueTokenModel = db.IssuedTokens.Find(id);
-            if (issueTokenModel == null)
-            {
-                return HttpNotFound();
-            }
-            return View(issueTokenModel);
+            // Here let's get the token by its id...
+            TokenEntity token = LookupEntityById(id);
+
+            // ... and save the deactivating reason and comments from our model.
+            // We'll also deactivate it by setting the status to false.
+            token.DeactivatingReason = tokenModel.Reason;
+            token.DeactivationComments = tokenModel.Comments;
+            token.Status = false;
+
+            // And save it!
+            tokens.SaveChanges();
+            // And we're done. Return OK to the page.
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
-        // POST: IssueTokenModels/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(Guid id)
+        private TokenEntity LookupEntityById(Guid id)
         {
-            IssueTokenModel issueTokenModel = db.IssuedTokens.Find(id);
-            db.IssuedTokens.Remove(issueTokenModel);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+            // We have an ID. Fetch the token data from the database.
+            //
+            // This will (behind the scenes) generate a query like:
+            //
+            // SELECT * 
+            // FROM [dbo].[Tokens]
+            // WHERE TokenCode = id
+            //
+            // ... and returns the first value from that result. If there are no results, it will return null,
+            // which we need to account for.
+            TokenEntity token = tokens.IssuedTokens.FirstOrDefault(entity => entity.TokenCode == id);
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+            // This is just in case someone breaks our database and takes out our token while we
+            // were attempting to deactivate it. 
+            if (token == null)
             {
-                db.Dispose();
+                throw new KeyNotFoundException($"The ID '{id}' was not found in the database.");
             }
-            base.Dispose(disposing);
+
+            return token;
         }
     }
 }

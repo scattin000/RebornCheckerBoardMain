@@ -90,12 +90,13 @@
             @Html.LabelFor(model => model.TokenValue, htmlAttributes: new { @class = "control-label col-md-2" })
             @*<input type="number" id="SubscriptionVal" style="display: none;" />*@
             <div class="col-md-10">
+                @Html.DropDownListFor(model => model.TokenValue, Model.GameTokenValue, new { @id = "GameTokenValueTypes", @class = "form-control" })
+            </div>
+            <div class="col-md-10">
                 @*So I have the token value, however trying to access the ItokenValue*@
                 @Html.TextBoxFor(model => model.TokenValue, new { @id = "SubscriptionTokenValueTypes", @class = "form-control" })
             </div>
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.TokenValue, Model.GameTokenValue, new { @id = "GameTokenValueTypes", @class = "form-control" })
-            </div>
+
         </div>
 
         @*Reason Drop down*@

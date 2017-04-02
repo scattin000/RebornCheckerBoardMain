@@ -1,0 +1,13 @@
+﻿{
+  "TokenCode": "",
+  "TokenType": "",
+  "TokenValue": "",
+  "TokenContent": "",
+  "Reason": "",
+  "EmailAddress": "",
+  "Comments": {
+    "Time": "2017-07-13T05:01:01+07:00",
+    "Event": "Mike was born! And now he's thirty!",
+    "Comments" :  "blah blah blah"
+  }
+}
