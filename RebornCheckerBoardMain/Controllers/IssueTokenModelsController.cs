@@ -149,10 +149,10 @@ namespace RebornCheckerBoardMain.Controllers
                 // ... and saving it.
                 tokens.SaveChanges();
 
-                return View();
+                //return View();
                 // Assuming we got here, the save worked fine. Go ahead and return control to the page;
                 // our Javascript will pop up the alert saying that it's successful.
-               // return new HttpStatusCodeResult(HttpStatusCode.OK);
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
             }
             // Stays on the page if there is an error... (set to display system error message)
             return View(model);           

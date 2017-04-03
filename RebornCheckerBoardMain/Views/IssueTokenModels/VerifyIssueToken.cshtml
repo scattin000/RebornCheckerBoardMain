@@ -12,8 +12,9 @@
 <script>
     var my = this;
     $(document).ready(function () {
-        $("#TokenValueTypeSelected").show();
+        // hide the alert on loading ONLY
         $("#successalert").hide();
+        $("#TokenValueTypeSelected").show();
         my.token = {
             TokenCode: '@Model.TokenCode',
             TokenType: '@Model.TokenType',
@@ -26,19 +27,22 @@
         };
 
         $("#btnSubmitDB").click(function () {
-            //calls "handleVerify" from controller, pass in my.token & calls onSaveSuccess function 
+            //calls "handleVerify" from controller, pass in my.token & calls onSaveSuccess function
             // once this controller function has been read
             $.post("/IssueTokenModels/HandleVerify", my.token, onSaveSuccess);
-        });
-        function onSaveSuccess() {
-            // first pop up your modal dialog saying that you saved some stuff
-            $("#successalert").show();
-            // then do a browser redirect back to the index page
-        }
 
-        // selecting cancel 
-        $("#btnCancel").click(function () {
-            alert('wee I canceled');
+            function onSaveSuccess() {
+                // first pop up your modal dialog saying that you saved some stuff
+                $("#successalert").show();
+            };
+             // then do a browser redirect back to the index page -- .this one isn't working'
+            $("#successalert").on("close.bs.alert", function () {
+                document.location = "@Url.Action("Index","Home")"
+            });
+        });           
+        // selecting cancel
+       $("#Cancel-button").click(function () {
+            document.location = "@Url.Action("Index","Home")"
         });
     });
 </script>
@@ -106,10 +110,9 @@
 </div>
 @*Success Alert, when closed redirect the page to...*@
 <div class="alert alert-success alert-dismissable" id="successalert">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+    <a href="#" class="close" data-dismiss="alert" aria-label="close" >×</a>
     <strong>The Token requested has been successfully issued</strong> 
 </div>
-
 
         @*
             <table class="table">
