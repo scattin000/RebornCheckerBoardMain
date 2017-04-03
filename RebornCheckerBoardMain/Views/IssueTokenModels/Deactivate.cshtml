@@ -35,8 +35,7 @@
 
         function loadToken(tokenCode) {
             // If there are no tokens in the database, Model.SelectedTokenCode will still be empty.
-            // We can't send an empty ID to the controller or it'll blow up.
-            // Therefore, if it's empty, we'll just return.
+            // We can't send an empty ID to the controller or it'll blow up. so if it's empty, we'll just return.
             if (tokenCode.length == 0) {
                 return;
             }
@@ -94,6 +93,9 @@
             });
         });
 
+        $("#Cancel-button").click(function () {
+            document.location = "@Url.Action("Index","Home")"
+        });
         // When the page first loads, the change() is not triggered on our drop down (because we
         // haven't changed it yet). Furthermore, if we only have one token issued (or one token active)
         // then we can't trigger the change() event on the dropdown because we can't change it.
@@ -108,17 +110,18 @@
 <div class="form-horizontal">
     <h2>Deactivate Token</h2>
     <hr />
-    
+
     <div class="form-group">
         @Html.LabelFor(model => model.TokensToChooseFrom, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10"> @*Display list of token codes previously issued*@
-            @Html.DropDownListFor(model => Model.SelectedTokenCode, Model.TokensToChooseFrom, new {@id="TokenCodeSelected", @class = "form-control"})
+        <div class="col-md-10">
+            @*Display list of token codes previously issued*@
+            @Html.DropDownListFor(model => Model.SelectedTokenCode, Model.TokensToChooseFrom, new { @id = "TokenCodeSelected", @class = "form-control" })
         </div>
     </div>
 
     @* Display *@
     <div class="form-group">
-        <p class="control-label col-md-2">Token Type</p> 
+        <p class="control-label col-md-2">Token Type</p>
         <div class="col-md-10">
             <span id="token-type-display" class="form-control"></span>
         </div>
@@ -157,48 +160,54 @@
             <p id="token-comments-validation-message" class="text-danger" hidden="hidden">Comments are required.</p>
         </div>
     </div>
-    @*
-<div class="form-group">
-    @Html.LabelFor(model => model.TokenContent, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-        @Html.EditorFor(model => model.TokenContent, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.TokenContent, "", new { @class = "text-danger" })
-    </div>
-</div>
-
-<div class="form-group">
-    @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-        @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
-    </div>
-</div>
-
-<div class="form-group">
-    @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-        @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
-    </div>
-</div>
-
-<div class="form-group">
-    @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-        <div class="checkbox">
-            @Html.EditorFor(model => model.Status)
-            @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
-        </div>
-    </div>
-</div>
-    *@
+    @*Button to submit the deactivate *@
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input id="deactivate-button" type="button" value="Deactivate" class="btn btn-default" />
+            @*On cancel return the agent back to the home page *@
+
+            <input id="Cancel-button" type="button" value="Cancel" class="btn btn-default" />
+        </div>
+    </div>   
+</div>
+@*
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.TokenContent, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.TokenContent, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.TokenContent, "", new { @class = "text-danger" })
         </div>
     </div>
-</div>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Status)
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+*@
+
+   

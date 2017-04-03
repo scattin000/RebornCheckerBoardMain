@@ -250,7 +250,6 @@
     <Content Include="Views\TokenCategories\Details.cshtml" />
     <Content Include="Views\TokenCategories\Edit.cshtml" />
     <Content Include="Views\TokenCategories\Index.cshtml" />
-    <Content Include="Views\IssueTokenModels\Create.cshtml" />
     <Content Include="Views\IssueTokenModels\Delete.cshtml" />
     <Content Include="Views\IssueTokenModels\Details.cshtml" />
     <Content Include="Views\IssueTokenModels\Deactivate.cshtml" />
