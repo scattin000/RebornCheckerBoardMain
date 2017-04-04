@@ -112,7 +112,7 @@
     <hr />
 
     <div class="form-group">
-        @Html.LabelFor(model => model.TokensToChooseFrom, htmlAttributes: new { @class = "control-label col-md-2" })
+        <label for="TokensToChooseFrom" class="control-label col-md-2"> Select A Token</label>        
         <div class="col-md-10">
             @*Display list of token codes previously issued*@
             @Html.DropDownListFor(model => Model.SelectedTokenCode, Model.TokensToChooseFrom, new { @id = "TokenCodeSelected", @class = "form-control" })
@@ -121,32 +121,32 @@
 
     @* Display *@
     <div class="form-group">
-        <p class="control-label col-md-2">Token Type</p>
+        <label for="TokenType" class="control-label col-md-2"> Token Type</label>
         <div class="col-md-10">
             <span id="token-type-display" class="form-control"></span>
         </div>
     </div>
     <div class="form-group">
-        <p class="control-label col-md-2">Token Content</p>
+        <label for="TokenContent" class="control-label col-md-2"> Token Content</label>
         <div class="col-md-10">
             <span id="token-Content-display" class="form-control"></span>
         </div>
     </div>
     <div class="form-group">
-        <p class="control-label col-md-2">Token Value</p>
+        <label for="TokenValue" class="control-label col-md-2"> Token Value</label>
         <div class="col-md-10">
             <span id="token-Value-display" class="form-control"></span>
         </div>
     </div>
     <div class="form-group">
-        <p class="control-label col-md-2">Email Address</p>
+        <label for="EmailAddress" class="control-label col-md-2">Deactivate From</label>
         <div class="col-md-10">
             <span id="token-EmailAddress-display" class="form-control"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <p class="control-label col-md-2">Reason for Deactivation</p>
+        <label for="Reason" class="control-label col-md-2"> Reason For Deactivation</label>
         @Html.DropDownListFor(model => model.SelectedReason, Model.ReasonChoices, new { @id = "token-reason-editor", @class = "form-control" })
         <div class="col-md-10">
             <p id="token-reason-validation-message" class="text-danger" hidden="hidden">A reason is required.</p>
@@ -154,7 +154,7 @@
     </div>
 
     <div class="form-group">
-        <p class="control-label col-md-2">Comments</p>
+        <label for="Comments" class="control-label col-md-2"> Comments </label>       
         <div class="col-md-10">
             <textarea id="token-comments-editor" class="form-control"></textarea>
             <p id="token-comments-validation-message" class="text-danger" hidden="hidden">Comments are required.</p>
