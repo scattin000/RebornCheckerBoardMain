@@ -159,7 +159,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IssueTokenModelsController.cs" />
-    <Compile Include="Controllers\TokenCategoriesController.cs" />
     <Compile Include="Entities\TokenType.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -245,11 +244,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\TokenCategories\Create.cshtml" />
-    <Content Include="Views\TokenCategories\Delete.cshtml" />
-    <Content Include="Views\TokenCategories\Details.cshtml" />
-    <Content Include="Views\TokenCategories\Edit.cshtml" />
-    <Content Include="Views\TokenCategories\Index.cshtml" />
     <Content Include="Views\IssueTokenModels\Delete.cshtml" />
     <Content Include="Views\IssueTokenModels\Details.cshtml" />
     <Content Include="Views\IssueTokenModels\Deactivate.cshtml" />

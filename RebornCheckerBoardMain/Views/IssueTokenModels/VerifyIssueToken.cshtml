@@ -51,10 +51,9 @@
     <div class="form-group">
         @Html.LabelFor(model => model.TokenType, htmlAttributes: new { @class = "control-label col-md-2" })
         @*On selecting a type call the tokenValView*@
-        <div class="col-md-10" @*id="SelectType" onblur="tokenValView(this.value)"*@>
+        <div class="col-md-10">
             @Html.DisplayFor(model => model.TokenType, new { @id = "TokenType", @readonly = "readonly" }) <br />
             @*By using "readonly" as a attribute above, we ensure the user cannot change the value.*@
-            @*We are using a textbox here instead of a dropdown because we aren't editing the value here anymore.*@
         </div>
     </div>
     <div class="form-group">

@@ -175,27 +175,7 @@ namespace RebornCheckerBoardMain.Controllers
                     throw new NotSupportedException($"The token type '{tokenType}' is not supported.");
             }
         }
-
-        /// <summary>
-        /// Get information from the IssueTOken (Index Page) to verify the token
-        /// On "Next >"
-        /// </summary>
-        // GET: IssueTokenModels/Details/5
-        public ActionResult Details()//Guid? id)
-        {
-            /* if (id == null)
-             {
-                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-             }
-             IssueTokenModel issueTokenModel = db.IssuedTokens.Find(id);
-             if (issueTokenModel == null)
-             {
-                 return HttpNotFound();
-             }
-             return View(issueTokenModel);*/
-            return View();
-        }
-      
+     
         /// <summary>
         /// Get the GUID's (Token Codes) for all the tokens to allow the user to select
         /// Which token they want to deactivate
@@ -232,10 +212,9 @@ namespace RebornCheckerBoardMain.Controllers
             // that we are trying to load a token with a null ID. That's not good.
             //
             // Therefore, we'll look up the first entity in our database and get its code, and use
-            // that as the primary selection.
-
+            // that as the primary selection.           
             Guid selectedTokenCode = tokenCodes.FirstOrDefault();
-
+       
             // The first thing that the user will do is that they need to pick which token they
             // want to deactivate. That's a separate operation than actually deactivating a token,
             // which is why we have a specific model (SelectTokenToDeactivateModel) to do that - provide
@@ -253,7 +232,6 @@ namespace RebornCheckerBoardMain.Controllers
                     new SelectListItem() { Value = "Active Token Troubleshooting", Text = "Active Token Troubleshooting " }
                 },
             };
-
 
             return View(model);
         }
@@ -277,7 +255,7 @@ namespace RebornCheckerBoardMain.Controllers
         {
             // Here let's get the token by its id...
             TokenEntity token = LookupEntityById(id);
-
+        
             // ... and save the deactivating reason and comments from our model.
             // We'll also deactivate it by setting the status to false.
             token.DeactivatingReason = tokenModel.Reason;
@@ -313,5 +291,26 @@ namespace RebornCheckerBoardMain.Controllers
 
             return token;
         }
+
+        /// <summary>
+        /// Get information from the IssueTOken (Index Page) to verify the token
+        /// On "Next >"
+        /// </summary>
+        // GET: IssueTokenModels/Details/5
+        public ActionResult Details()//Guid? id)
+        {
+            /* if (id == null)
+             {
+                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+             }
+             IssueTokenModel issueTokenModel = db.IssuedTokens.Find(id);
+             if (issueTokenModel == null)
+             {
+                 return HttpNotFound();
+             }
+             return View(issueTokenModel);*/
+            return View();
+        }
+
     }
 }
