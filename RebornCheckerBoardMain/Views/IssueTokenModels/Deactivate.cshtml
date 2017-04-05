@@ -105,13 +105,12 @@
 
             // We have valid data. Now we will call back to the controller to do the deactivation.
             $.post("/IssueTokenModels/DeactivateToken/" + my.token.TokenCode, my.token, function () {
+             // The token is now deactivated. Whatever we need to do the let the user know, do that.
                 $("#successalert").show();
-
+                // on closing the alert.. redirect to home page 
                 $("#successalert").on("close.bs.alert", function () {
                 document.location = "@Url.Action("Index","Home")"
                  });
-                // The token is now deactivated. Whatever we need to do the let the user know, do that.
-                //alert('wee we deactivated the token!'); // ... don't show that message. Show something else nicer instead.
             });
         });
 
