@@ -163,9 +163,9 @@
     </div>
 
     <div class="form-group">
-        <label for="Reason" class="control-label col-md-2"> Reason For Deactivation</label>
-        @Html.DropDownListFor(model => model.SelectedReason, Model.ReasonChoices, new { @id = "token-reason-editor", @class = "form-control" })
+        <label for="Reason" class="control-label col-md-2"> Reason For Deactivation </label>
         <div class="col-md-10">
+            @Html.DropDownListFor(model => model.SelectedReason, Model.ReasonChoices, new { @id = "token-reason-editor", @class = "form-control" })
             <p id="token-reason-validation-message" class="text-danger" hidden="hidden">A reason is required.</p>
         </div>
     </div>
@@ -174,6 +174,7 @@
         <label for="Comments" class="control-label col-md-2"> Comments </label>       
         <div class="col-md-10">
             <textarea id="token-comments-editor" class="form-control"></textarea>
+            @*<textarea id="token-comments-editor" class="form-control"></textarea>*@
             <p id="token-comments-validation-message" class="text-danger" hidden="hidden">Comments are required.</p>
         </div>
     </div>

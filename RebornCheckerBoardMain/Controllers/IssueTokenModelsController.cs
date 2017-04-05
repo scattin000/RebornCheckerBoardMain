@@ -229,7 +229,11 @@ namespace RebornCheckerBoardMain.Controllers
                 ReasonChoices = new SelectListItem[]
                 {
                     new SelectListItem() { Value = "Created/ Inactive Status", Text = "Created/ Inactive Status "},
-                    new SelectListItem() { Value = "Active Token Troubleshooting", Text = "Active Token Troubleshooting " }
+                    new SelectListItem() { Value = "Active Token Troubleshooting", Text = "Active Token Troubleshooting " },
+                    new SelectListItem() { Value = "Technical Difficulties", Text = "Technical Difficulties " },
+                    new SelectListItem() { Value = "Generated In Error", Text = "Generated Token In Error " },
+                    new SelectListItem() { Value = "Issued Incorrect Token", Text = "Issued Incorrect Token Type" },
+                    new SelectListItem() { Value = "Fraud/Abuse", Text = "Fraud/Abuse Reported" }
                 },
             };
 
