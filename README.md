@@ -1,7 +1,3 @@
-# RebornCheckerBoardMain
-Token Tool Website
-
-
 # KHIT Team 
 This is just an example of some Release Notes stored in code maybe 
 
