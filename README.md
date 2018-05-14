@@ -20,6 +20,9 @@ This is just an example of some Release Notes stored in code maybe
 * Resolved glitches with tiles refreshing at different times 
 
 ## 1804 - 01 
+### Home 
+* Added Release Notes tiles 
+
 
 
 ## Build and deployment
