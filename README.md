@@ -55,6 +55,24 @@ This is just an example of some Release Notes stored in code maybe
 * Fixed issues with transferring chat to another agent
 
 
+
+# App Specific Example 
+This is just an example of some Release Notes stored in code maybe 
+# Knowledge Release Summaries 
+
+## 1804 - 02 
+* Separation of presentation, content, and behavior (Progressive Enhancement).
+* Markup should be well-formed, semantically correct and generally valid.
+* Javascript should progressively enhance the experience (Unobtrusive Javascript).
+
+## 1804 - 01 
+* Resolved issues with favoriting items in search 
+* Added ability to search within My Knowledge page 
+
+
+
+
+
 ## Build and deployment
 
 We use grunt.js for client-side linting, testing and compressing.
