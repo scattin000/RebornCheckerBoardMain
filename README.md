@@ -21,6 +21,40 @@ This is just an example of some Release Notes stored in code maybe
 
 
 
+
+# SD Splash Page Example 
+# Service Desk - April 30th 2018 
+
+### Home                
+* Resolved auto refresh to sync for all tiles 
+
+### Case 
+* Resolved localization issues 
+* Added case sync 
+* Added new template to email 
+
+# Service Desk - April 23rd 2018
+
+### Home 
+* Added Release Summary Splash page 
+
+### Insights 
+* Added Query Filter 
+* Fixed loading time errors when looking at View all Agents 
+
+### Agent Services 
+* Added timeline view of past actions taken on agent profile 
+
+### Case 
+* Added tags to note section
+* Removed hyperlink from customer information
+
+### Comms Console 
+* Ability to take a screenshot was added  
+* Added ability to have a live review after chatting 
+* Fixed issues with transferring chat to another agent
+
+
 ## Build and deployment
 
 We use grunt.js for client-side linting, testing and compressing.
